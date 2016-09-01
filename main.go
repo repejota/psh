@@ -3,6 +3,6 @@ package main
 import "fmt"
 
 func main() {
-	prompt := "\\u@\\H:\\w> "
+	prompt := getPrompt()
 	fmt.Printf(prompt)
 }

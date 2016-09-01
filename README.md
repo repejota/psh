@@ -1,0 +1,3 @@
+# psh
+
+A prompt generator
