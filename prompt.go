@@ -1,6 +1,13 @@
 package main
 
-func getPrompt() string {
+// Prompt type
+type Prompt struct {
+	prompt string
+}
+
+// Build the prompt
+func (p *Prompt) getPrompt() string {
 	prompt := "\\u@\\H:\\w\\$ "
-	return prompt
+	p.prompt = prompt
+	return p.prompt
 }
