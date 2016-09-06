@@ -7,6 +7,9 @@ const (
 	// Current hostname
 	HOSTNAME = "\\H"
 
+	// User and Hostname
+	USER_HOSTNAME = USER + "@" + HOSTNAME
+
 	// Current path
 	PATH = "\\w"
 
