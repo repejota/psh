@@ -14,6 +14,5 @@ func (p *Prompt) getPrompt() string {
 		PATH,
 		PROMPT,
 	)
-	p.prompt = resetFormat(p.prompt)
-	return p.prompt
+	return resetFormat(p.prompt)
 }
