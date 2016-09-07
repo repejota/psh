@@ -3,6 +3,7 @@ package main
 import "fmt"
 
 func main() {
-	prompt := getPrompt()
+	var p Prompt
+	prompt := p.getPrompt()
 	fmt.Printf(prompt)
 }
