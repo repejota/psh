@@ -33,7 +33,7 @@ func getGitPartial() string {
 	partial := ""
 	changes := getGitChanges()
 	if changes > 0 {
-		partial = fmt.Sprintf("%d:", changes)
+		partial = fmt.Sprintf("%d  ", changes)
 	}
 	partial = fmt.Sprintf("%s%s", partial, getGitBranch())
 	return partial

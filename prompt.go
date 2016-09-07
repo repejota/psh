@@ -41,22 +41,24 @@ func (p *Prompt) setFg(fg int) {
 // Build the prompt
 func (p *Prompt) getPrompt() string {
 	p.reset()
-	p.setBg(239)
+	p.setBg(244)
 	p.append(JOBS)
-	p.setColor(239, 238)
-	p.append("")
+	p.setColor(244, 240)
+	p.append(" ")
 
 	p.reset()
-	p.setBg(238)
+	p.setBg(240)
 	p.append(PATH)
+	p.append(" ")
 
 	p.reset()
-	p.setColor(238, 236)
-	p.append("")
+	p.setColor(240, 236)
+	p.append(" ")
 
 	p.reset()
 	p.setBg(236)
 	p.append(getGitPartial())
+	p.append(" ")
 	p.reset()
 	p.setFg(236)
 	p.append("")
