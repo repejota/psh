@@ -15,4 +15,7 @@ const (
 
 	// Prompt : $ or users and # for root
 	PROMPT = "\\$"
+
+	// Number of jobs of this session
+	JOBS = "\\j"
 )

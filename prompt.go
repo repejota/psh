@@ -9,10 +9,11 @@ type Prompt struct {
 
 // Build the prompt
 func (p *Prompt) getPrompt() string {
-	p.prompt = fmt.Sprintf("%s:%s%s ",
-		resetFormat(fgColor(USER_HOSTNAME, 240)),
-		PATH,
-		PROMPT,
+	p.prompt = fmt.Sprintf("%s%s%s ",
+		bgColor(JOBS, 239),
+		//bgColor(USER_HOSTNAME, 240),
+		bgColor(PATH, 238),
+		resetFormat(PROMPT),
 	)
 	return resetFormat(p.prompt)
 }
