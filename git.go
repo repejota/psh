@@ -8,6 +8,7 @@ import (
 	"strings"
 )
 
+// getGitBranch returns the current git branch name
 func getGitBranch() string {
 	out, err := exec.Command("git", "rev-parse", "--abbrev-ref", "HEAD").Output()
 	if err != nil {
@@ -16,6 +17,7 @@ func getGitBranch() string {
 	return strings.Trim(string(out), "\n")
 }
 
+// getGitChanges counts the number of changes on this repo
 func getGitChanges() int {
 	out, err := exec.Command("git", "status", "-s", "--porcelain").Output()
 	if err != nil {
@@ -29,6 +31,7 @@ func getGitChanges() int {
 	return changes
 }
 
+// getGitPartial builds Git partial string
 func getGitPartial() string {
 	partial := ""
 	if existsPath(".git") {
