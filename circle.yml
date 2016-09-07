@@ -1,3 +1,6 @@
 test:
+  override:
+    - make lint
+    - make test
   post:
     - bash <(curl -s https://codecov.io/bash)
