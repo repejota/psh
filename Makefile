@@ -42,7 +42,7 @@ dist-windows:
 clean:
 	go clean
 	rm -rf psh-*
-	rm cover.out
+	rm -rf cover.out
 
 reload:
 	source ./contrib/install.sh
