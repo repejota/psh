@@ -15,6 +15,9 @@ lint:
 	golint ./...
 	go vet ./...
 
+dev-deps:
+	go get -u github.com/golang/lint/golint
+
 dist: dist-linux dist-darwin dist-windows
 
 dist-linux:
