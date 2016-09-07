@@ -22,21 +22,9 @@ func main() {
 	}
 
 	var o Options
-	if *jobsPartialPtr {
-		o.JobsPartial = true
-	} else {
-		o.JobsPartial = false
-	}
-	if *pathPartialPtr {
-		o.PathPartial = true
-	} else {
-		o.PathPartial = false
-	}
-	if *gitPartialPtr {
-		o.GitPartial = true
-	} else {
-		o.GitPartial = false
-	}
+	o.JobsPartial = *jobsPartialPtr
+	o.PathPartial = *pathPartialPtr
+	o.GitPartial = *gitPartialPtr
 
 	var p Prompt
 	prompt := p.getPrompt(o)
