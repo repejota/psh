@@ -9,11 +9,7 @@ build:
 	go build -v ${LDFLAGS}
 
 test:
-	go test -v ./... --cover
-
-cover:
-	go test -coverprofile cover.out
-	goveralls -repotoken k7kIkhp7ub6iz1gIEBGOjmOvhuPJB7Dki
+	./contrib/go.test.sh
 
 lint:
 	golint ./...
