@@ -31,10 +31,12 @@ func getGitChanges() int {
 
 func getGitPartial() string {
 	partial := ""
-	changes := getGitChanges()
-	if changes > 0 {
-		partial = fmt.Sprintf("%d  ", changes)
+	if existsPath(".git") {
+		changes := getGitChanges()
+		if changes > 0 {
+			partial = fmt.Sprintf("%d  ", changes)
+		}
+		partial = fmt.Sprintf("%s%s", partial, getGitBranch())
 	}
-	partial = fmt.Sprintf("%s%s", partial, getGitBranch())
 	return partial
 }
