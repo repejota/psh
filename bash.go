@@ -19,7 +19,7 @@ const (
 	// BashEscapePrompt Is the character $ for users and # for root
 	BashEscapePrompt = "\\$"
 
-	// BashEscapeJojbs Is the number of background jobs of this session
+	// BashEscapeJobs Is the number of background jobs of this session
 	// returned by an escape sequence
 	// http://www.tldp.org/HOWTO/Bash-Prompt-HOWTO/bash-prompt-escape-sequences.html
 	BashEscapeJobs = "\\j"
