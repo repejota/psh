@@ -43,3 +43,6 @@ clean:
 	go clean
 	rm -rf psh-*
 	rm cover.out
+
+reload:
+	source ./contrib/install.sh

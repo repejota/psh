@@ -5,7 +5,7 @@ const (
 	// http://www.tldp.org/HOWTO/Bash-Prompt-HOWTO/bash-prompt-escape-sequences.html
 	BashEscapeUser = "\\u"
 
-	// HOSTNAME Is the current hostname returned by an escape sequence
+	// BashEscapeHostname Is the current hostname returned by an escape sequence
 	// http://www.tldp.org/HOWTO/Bash-Prompt-HOWTO/bash-prompt-escape-sequences.html
 	BashEscapeHostname = "\\H"
 
