@@ -7,8 +7,10 @@ func TestExistPath(t *testing.T) {
 	if !ep {
 		t.Error("Expected true, got ", ep)
 	}
+}
 
-	ep = existsPath("foobar")
+func TestDoNotExistPath(t *testing.T) {
+	ep := existsPath("foobar")
 	if ep {
 		t.Error("Expected false, got ", ep)
 	}
