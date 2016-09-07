@@ -5,7 +5,6 @@ import (
 	"bytes"
 	"fmt"
 	"os/exec"
-	"strconv"
 	"strings"
 )
 
@@ -17,19 +16,25 @@ func getGitBranch() string {
 	return strings.Trim(string(out), "\n")
 }
 
-func getGitChanges() string {
+func getGitChanges() int {
 	out, err := exec.Command("git", "status", "-s", "--porcelain").Output()
 	if err != nil {
-		return ""
+		return -1
 	}
-	counter := 0
+	changes := 0
 	s := bufio.NewScanner(bytes.NewReader(out))
 	for s.Scan() {
-		counter++
+		changes++
 	}
-	return strconv.Itoa(counter)
+	return changes
 }
 
 func getGitPartial() string {
-	return fmt.Sprintf("%s:%s", getGitChanges(), getGitBranch())
+	partial := ""
+	changes := getGitChanges()
+	if changes > 0 {
+		partial = fmt.Sprintf("%d:", changes)
+	}
+	partial = fmt.Sprintf("%s%s", partial, getGitBranch())
+	return partial
 }
