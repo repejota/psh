@@ -7,14 +7,14 @@ type Prompt struct {
 }
 
 // getPrompt Builds the prompt
-func (p *Prompt) getPrompt(o Options) string {
-	if o.JobsPartial {
+func (p *Prompt) getPrompt() string {
+	if p.Options.JobsPartial {
 		p.PartialJobs()
 	}
-	if o.PathPartial {
+	if p.Options.PathPartial {
 		p.PartialPath()
 	}
-	if o.GitPartial {
+	if p.Options.GitPartial {
 		p.PartialGit()
 	}
 	p.reset()

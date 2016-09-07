@@ -2,7 +2,15 @@ package main
 
 // Options type
 type Options struct {
-	JobsPartial bool
-	PathPartial bool
-	GitPartial  bool
+	JobsPartial           bool
+	JobsPartialBackground int
+	PathPartial           bool
+	GitPartial            bool
+}
+
+func (o *Options) setDefaults() {
+	o.JobsPartial = true
+	o.JobsPartialBackground = 244
+	o.PathPartial = true
+	o.GitPartial = true
 }

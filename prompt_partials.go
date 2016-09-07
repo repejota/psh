@@ -2,9 +2,9 @@ package main
 
 func (p *Prompt) PartialJobs() {
 	p.reset()
-	p.setBg(244)
+	p.setBg(p.Options.JobsPartialBackground)
 	p.append(BashEscapeJobs)
-	p.setColor(244, 240)
+	p.setColor(p.Options.JobsPartialBackground, 240)
 	p.append(" ")
 }
 
