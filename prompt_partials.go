@@ -25,11 +25,18 @@ func (p *Prompt) PartialPath() {
 
 // PartialGit renders the git partial
 func (p *Prompt) PartialGit() {
-	p.reset()
-	p.setColor(p.Options.GitPartialForeground, p.Options.GitPartialBackground)
-	p.append(getGitPartial())
-	p.append(" ")
-	p.reset()
-	p.setFg(p.Options.GitPartialBackground)
-	p.append(p.Options.PartialSuffix)
+	if existsPath(".git") {
+		p.reset()
+		p.setColor(p.Options.GitPartialForeground, p.Options.GitPartialBackground)
+		p.append(getGitPartial())
+		p.append(" ")
+		p.reset()
+		p.setFg(p.Options.GitPartialBackground)
+		p.append(p.Options.PartialSuffix)
+	} else {
+		p.append("$(tput cub 2)")
+		p.reset()
+		p.setFg(p.Options.PathPartialBackground)
+		p.append(p.Options.PartialSuffix)
+	}
 }
