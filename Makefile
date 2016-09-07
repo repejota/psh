@@ -42,3 +42,4 @@ dist-windows:
 clean:
 	go clean
 	rm -rf psh-*
+	rm cover.out
