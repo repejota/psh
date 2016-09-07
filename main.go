@@ -11,15 +11,19 @@ var Version string
 
 func main() {
 	versionPtr := flag.Bool("version", false, "Show version number.")
+
 	jobsPartialPtr := flag.Bool("jobs-partial", true, "Enable or disable jobs partial.")
 	jobsPartialBackgroundPtr := flag.Int("jobs-partial-bg", -1, "Background color for the jobs partial.")
 	jobsPartialForegroundPtr := flag.Int("jobs-partial-fg", -1, "Foreground color for the jobs partial.")
+
 	pathPartialPtr := flag.Bool("path-partial", true, "Enable or disable path partial.")
 	pathPartialBackgroundPtr := flag.Int("path-partial-bg", -1, "Background color for the path partial.")
 	pathPartialForegroundPtr := flag.Int("path-partial-fg", -1, "Foreground color for the path partial.")
+
 	gitPartialPtr := flag.Bool("git-partial", true, "Enable or disable git partial.")
 	gitPartialBackgroundPtr := flag.Int("git-partial-bg", -1, "Background color for the git partial.")
 	gitPartialForegroundPtr := flag.Int("git-partial-fg", -1, "Foreground color for the git partial.")
+
 	flag.Parse()
 
 	if *versionPtr {
