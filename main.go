@@ -34,6 +34,7 @@ func main() {
 	var options Options
 
 	options.setDefaults()
+	options.builFromEnv()
 
 	options.JobsPartial = *jobsPartialPtr
 	if *jobsPartialBackgroundPtr != -1 {

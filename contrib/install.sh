@@ -2,8 +2,7 @@
 # $ source install.sh
 
 CMD="psh"
-# CMD=""
-# CMD="psh --jobs-partial=false"
+# CMD="psh --jobs-partial=false"
 # CMD="psh --path-partial=false"
 # CMD="psh --git-partial=false"
 # CMD="psh \
