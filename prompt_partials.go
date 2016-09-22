@@ -26,7 +26,7 @@ func (p *Prompt) PartialPath() {
 // PartialGit renders the git partial
 func (p *Prompt) PartialGit() {
 	if !existsPath(".git") {
-		p.append("$(tput cub 2)")
+		p.append("\\[$(tput cub 2)\\]")
 		p.reset()
 		p.setFg(p.Options.PathPartialBackground)
 		p.append(p.Options.PartialSuffix)

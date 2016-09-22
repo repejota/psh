@@ -19,5 +19,5 @@ func (p *Prompt) getPrompt() string {
 	}
 	p.reset()
 	p.append(" ")
-	return "\\[" + p.Prompt + "\\]"
+	return p.Prompt
 }
