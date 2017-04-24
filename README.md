@@ -15,7 +15,7 @@ A prompt generator
 How to install:
 
 ```
-$ go get -u github.com/repejota/sh
+$ go get -u github.com/repejota/psh
 ```
 
 And use this on your `.bash_profile`

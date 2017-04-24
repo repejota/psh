@@ -27,3 +27,7 @@ func (o *Options) setDefaults() {
 	o.GitPartialBackground = 18 // 236
 	o.GitPartialForeground = 21
 }
+
+func (o *Options) builFromEnv() {
+
+}
