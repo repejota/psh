@@ -1,22 +1,44 @@
 VERSION=`cat ./VERSION`
+BUILD=`git symbolic-ref HEAD 2> /dev/null | cut -b 12-`-`git log --pretty=format:%h -1`
+PACKAGES = $(shell go list ./...)
 
-LDFLAGS=-ldflags "-X main.Version=${VERSION}"
+# Setup the -ldflags option for go build here, interpolate the variable
+# values
+LDFLAGS=-ldflags "-X main.Version=${VERSION} -X main.Build=${BUILD}"
 
 install:
-	go install -v ${LDFLAGS}
+	go install $(LDFLAGS) -v $(PACKAGES)
 
 build:
-	go build -v ${LDFLAGS}
+	go build $(LDFLAGS) -v $(PACKAGES)
 
+# Testing
+
+.PHONY: test
 test:
-	./contrib/go.test.sh
+	go test -v $(PACKAGES)
+
+.PHONY: cover
+cover:
+	go test -cover $(PACKAGES)
+
+.PHONY: cover-html
+cover-html:
+	echo "mode: count" > coverage-all.out
+	$(foreach pkg,$(PACKAGES),\
+		go test -coverprofile=coverage.out -covermode=count $(pkg);\
+		tail -n +2 coverage.out >> coverage-all.out;)
+	rm -rf coverage.out
+	go tool cover -html=coverage-all.out
+
+# Lint
 
 lint:
-	golint ./...
-	go vet ./...
+	gometalinter --tests ./...
 
 dev-deps:
-	go get -u github.com/golang/lint/golint
+	go get -u github.com/alecthomas/gometalinter
+	gometalinter --install
 
 dist: dist-linux dist-darwin dist-windows
 
