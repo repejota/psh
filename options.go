@@ -16,7 +16,6 @@ type Options struct {
 
 func (o *Options) setDefaults() {
 	o.PartialSuffix = ""
-
 	o.JobsPartial = true
 	o.JobsPartialBackground = 2 // 244
 	o.JobsPartialForeground = 0 // 21

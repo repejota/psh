@@ -9,6 +9,9 @@ import (
 // Version is the version number
 var Version string
 
+// Build is the build hash
+var Build string
+
 func main() {
 	versionPtr := flag.Bool("version", false, "Show version number.")
 
@@ -27,7 +30,7 @@ func main() {
 	flag.Parse()
 
 	if *versionPtr {
-		fmt.Println(Version)
+		fmt.Printf("%s-%s", Version, Build)
 		os.Exit(0)
 	}
 
