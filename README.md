@@ -1,4 +1,4 @@
-# psh
+# psh
 
 A prompt generator
 
@@ -10,7 +10,7 @@ A prompt generator
 
 * Go Report Card: [![Go Report Card](https://goreportcard.com/badge/github.com/repejota/psh)](https://goreportcard.com/report/github.com/repejota/psh)
 
-## Installation
+## Installation
 
 How to install:
 
@@ -31,6 +31,6 @@ export PS1="$(psh)"
 PROMPT_COMMAND=__psh
 ```
 
-## Screenshot
+## Screenshot
 
 ![psh screenshot](https://github.com/repejota/psh/raw/master/shot.png "psh screenshot")
