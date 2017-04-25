@@ -30,7 +30,7 @@ func main() {
 	flag.Parse()
 
 	if *versionPtr {
-		fmt.Printf("%s-%s", Version, Build)
+		fmt.Printf("%s-%s\n", Version, Build)
 		os.Exit(0)
 	}
 
