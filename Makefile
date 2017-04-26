@@ -66,4 +66,5 @@ clean:
 	rm -rf cover.out
 
 reload:
-	source ./contrib/install.sh
+	source `pwd`/contrib/install.sh
+
