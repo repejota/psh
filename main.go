@@ -77,7 +77,14 @@ func main() {
 		options.GitPartialForeground = *gitPartialForegroundPtr
 	}
 
+	// Build prompt
 	var prompt Prompt
 	prompt.Options = options
-	fmt.Printf(prompt.getPrompt())
+	prompt.BuildPrompt()
+
+	// Render prompt
+	var result string
+	result = prompt.RenderPrompt()
+
+	fmt.Printf(result)
 }
