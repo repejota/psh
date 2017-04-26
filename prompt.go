@@ -6,6 +6,12 @@ type Prompt struct {
 	Prompt  string
 }
 
+// NewPrompt creates a new prompt type.
+func NewPrompt(o Options) (p Prompt) {
+	p.Options = o
+	return p
+}
+
 // BuildPrompt Builds the prompt.
 func (p *Prompt) BuildPrompt() {
 	if p.Options.JobsPartial {
@@ -17,11 +23,11 @@ func (p *Prompt) BuildPrompt() {
 	if p.Options.GitPartial {
 		p.PartialGit()
 	}
-	p.reset()
-	p.append(" ")
 }
 
 // RenderPrompt renders prompt to final string.
 func (p *Prompt) RenderPrompt() string {
+	p.reset()
+	p.append(" ")
 	return p.Prompt
 }

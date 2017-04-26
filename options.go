@@ -30,3 +30,10 @@ func (o *Options) setDefaults() {
 func (o *Options) builFromEnv() {
 
 }
+
+// NewOptions Build a new options type.
+func NewOptions() (o Options) {
+	o.setDefaults()
+	o.builFromEnv()
+	return o
+}
