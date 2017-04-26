@@ -4,6 +4,7 @@ import (
 	"flag"
 	"fmt"
 	"os"
+	"strconv"
 )
 
 // Version is the version number
@@ -14,6 +15,8 @@ var Build string
 
 func main() {
 	versionPtr := flag.Bool("version", false, "Show version number.")
+
+	colorTestPtr := flag.Bool("colortest", false, "Execute a color test.")
 
 	jobsPartialPtr := flag.Bool("jobs-partial", true, "Enable or disable jobs partial.")
 	jobsPartialBackgroundPtr := flag.Int("jobs-partial-bg", -1, "Background color for the jobs partial.")
@@ -31,6 +34,16 @@ func main() {
 
 	if *versionPtr {
 		fmt.Printf("%s-%s\n", Version, Build)
+		os.Exit(0)
+	}
+
+	if *colorTestPtr {
+		bg := 0
+		for fg := 0; fg < 10; fg++ {
+			foreground := "\\[$(tput setaf " + strconv.Itoa(fg) + ")\\]"
+			background := "\\[$(tput setab " + strconv.Itoa(bg) + ")\\]"
+			fmt.Printf("%s%s%s\n", foreground, background, "foo")
+		}
 		os.Exit(0)
 	}
 
