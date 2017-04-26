@@ -21,4 +21,3 @@ func (p *Prompt) getPrompt() string {
 	p.append(" ")
 	return p.Prompt
 }
-

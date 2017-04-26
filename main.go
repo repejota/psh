@@ -39,10 +39,11 @@ func main() {
 
 	if *colorTestPtr {
 		bg := 0
-		for fg := 0; fg < 10; fg++ {
-			foreground := "\\[$(tput setaf " + strconv.Itoa(fg) + ")\\]"
-			background := "\\[$(tput setab " + strconv.Itoa(bg) + ")\\]"
-			fmt.Printf("%s%s%s\n", foreground, background, "foo")
+		reset := "$(tput sgr0)"
+		for fg := 0; fg < 16; fg++ {
+			foreground := "$(tput setaf " + strconv.Itoa(fg) + ")"
+			background := "$(tput setab " + strconv.Itoa(bg) + ")"
+			fmt.Printf("echo -e \"%s%s fg:%d bg:%d - %s%s\"", foreground, background, fg, bg, "sample ", reset)
 		}
 		os.Exit(0)
 	}
