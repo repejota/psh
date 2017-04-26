@@ -6,8 +6,8 @@ type Prompt struct {
 	Prompt  string
 }
 
-// getPrompt Builds the prompt
-func (p *Prompt) getPrompt() string {
+// BuildPrompt Builds the prompt.
+func (p *Prompt) BuildPrompt() {
 	if p.Options.JobsPartial {
 		p.PartialJobs()
 	}
@@ -19,6 +19,9 @@ func (p *Prompt) getPrompt() string {
 	}
 	p.reset()
 	p.append(" ")
-	return p.Prompt
 }
 
+// RenderPrompt renders prompt to final string.
+func (p *Prompt) RenderPrompt() string {
+	return p.Prompt
+}
