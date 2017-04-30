@@ -57,11 +57,11 @@ func main() {
 
 	// Build prompt
 	prompt := NewPrompt(options)
-	prompt.BuildPrompt()
+	prompt.Build()
 
 	// Render prompt
 	var result string
-	result = prompt.RenderPrompt()
+	result = prompt.Render()
 
 	fmt.Printf(result)
 }
