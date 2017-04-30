@@ -36,6 +36,9 @@ cover-html:
 lint:
 	gometalinter --tests ./...
 
+deps:
+	go get -u github.com/spf13/cobra/cobra
+
 dev-deps:
 	go get -u github.com/alecthomas/gometalinter
 	gometalinter --install
