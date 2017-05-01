@@ -4,7 +4,6 @@ import (
 	"fmt"
 
 	"github.com/repejota/psh/command"
-	"github.com/repejota/psh/prompt"
 	"github.com/spf13/cobra"
 )
 
@@ -26,28 +25,8 @@ func main() {
 		},
 	}
 
-	var colortestCmd = &cobra.Command{
-		Use:   "colortest",
-		Short: "Run the color test",
-		Long:  `Run a local color test to show all available color and backgrounds on this terminal.`,
-		Run:   command.ColorTestCmd,
-	}
-	colortestCmd.Flags().Bool("disable-colors", false, "do not execute foreground color test")
-	colortestCmd.Flags().Bool("disable-backgrounds", false, "do not execute background color test")
-
-	var runCmd = &cobra.Command{
-		Use:   "run",
-		Short: "Run the prompt generator",
-		Long:  `Run the prompt generator and prints the final string.`,
-		Run: func(cmd *cobra.Command, args []string) {
-			var result string
-			_ = prompt.NewPrompt()
-			fmt.Printf(result)
-		},
-	}
-
-	var rootCmd = runCmd
+	var rootCmd = command.RunCmd
 	rootCmd.AddCommand(versionCmd)
-	rootCmd.AddCommand(colortestCmd)
+	rootCmd.AddCommand(command.ColorTestCmd)
 	rootCmd.Execute()
 }
