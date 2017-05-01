@@ -6,8 +6,8 @@ import (
 	"regexp"
 
 	"github.com/repejota/psh/environment"
-	"github.com/repejota/psh/partial"
 	"github.com/repejota/psh/prompt/helpers"
+	"github.com/repejota/psh/prompt/partial"
 	"github.com/repejota/psh/prompt/themes"
 )
 
