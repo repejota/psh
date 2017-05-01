@@ -2,12 +2,13 @@ package prompt
 
 import (
 	"bytes"
-	"fmt"
 	"html/template"
-	"strconv"
+	"regexp"
 
 	"github.com/repejota/psh/environment"
 	"github.com/repejota/psh/partial"
+	"github.com/repejota/psh/prompt/helpers"
+	"github.com/repejota/psh/prompt/themes"
 )
 
 // Prompt ...
@@ -33,33 +34,10 @@ func (p *Prompt) Build() {
 
 // Render ...
 func (p *Prompt) Render() string {
-	escape := "\x1b"
-	funcMap := template.FuncMap{
-		"color": func(fg int, bg int) string {
-			foreground := escape + "[38;5;" + strconv.Itoa(fg) + "m"
-			background := escape + "[48;5;" + strconv.Itoa(bg) + "m"
-			return fmt.Sprintf("%s%s", foreground, background)
-		},
-		"fg": func(c int) string {
-			foreground := escape + "[38;5;" + strconv.Itoa(c) + "m"
-			return foreground
-		},
-		"bg": func(c int) string {
-			background := escape + "[48;5;" + strconv.Itoa(c) + "m"
-			return background
-		},
-		"reset": func() string {
-			reset := escape + "[0m"
-			return reset
-		},
-	}
 	var result bytes.Buffer
-	tmpl := template.New("prompt").Funcs(funcMap)
-	templateSource := ""
-	templateSource = templateSource + "{{color 0 108}}  {{.Shell.PromptEscapeJobs}} {{color 108 8}}"
-	templateSource = templateSource + "{{color 21 8}} {{.Shell.PromptEscapeCurentWorkingDirectory}} {{if .Git.IsAGitRepo}}{{color 8 19}}{{else}}{{color 8 0}}{{end}}"
-	templateSource = templateSource + "{{if .Git.IsAGitRepo}}{{color 21 19}}  {{.Git.Changes}} {{.Git.Branch}} {{color 19 0}}{{end}}"
-	templateSource = templateSource + "{{reset}}"
+	tmpl := template.New("prompt").Funcs(helpers.TemplateHelpers)
+	re := regexp.MustCompile(`\r?\n`)
+	templateSource := re.ReplaceAllString(themes.DefaultTemplate, "")
 	templateSource = templateSource + " "
 	tmpl, err := tmpl.Parse(templateSource)
 	if err != nil {
