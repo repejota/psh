@@ -4,7 +4,7 @@ PACKAGES = $(shell go list ./...)
 
 # Setup the -ldflags option for go build here, interpolate the variable
 # values
-LDFLAGS=-ldflags "-X main.Version=${VERSION} -X main.Build=${BUILD}"
+LDFLAGS=-ldflags "-X command.Version=${VERSION} -X command.Build=${BUILD}"
 
 install:
 	go install $(LDFLAGS) -v $(PACKAGES)
@@ -35,6 +35,9 @@ cover-html:
 
 lint:
 	gometalinter --tests ./...
+
+deps:
+	go get -u github.com/spf13/cobra/cobra
 
 dev-deps:
 	go get -u github.com/alecthomas/gometalinter
