@@ -6,7 +6,7 @@ import (
 	"os"
 	"strconv"
 
-	"github.com/repejota/psh/prompt"
+	"github.com/repejota/psh"
 )
 
 var (
@@ -52,12 +52,9 @@ func main() {
 			color := fmt.Sprintf("%s[48;5;%sm", escape, strconv.Itoa(c))
 			fmt.Printf("Color %d: '%s%s%s'%s", c, color, "test", reset, "\n")
 		}
+		os.Exit(0)
 	}
 
-	p := prompt.NewPrompt()
-	p.Build()
-	result := p.Render()
-	fmt.Printf(result)
-
-	//fmt.Printf("$ ")
+	prompt := psh.NewPrompt()
+	fmt.Printf("%s ", prompt)
 }
