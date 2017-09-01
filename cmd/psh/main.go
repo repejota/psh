@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"os"
 	"strconv"
+
+	"github.com/repejota/psh/prompt"
 )
 
 var (
@@ -52,11 +54,10 @@ func main() {
 		}
 	}
 
-	/*
-		p := prompt.NewPrompt()
-		p.Build()
-		result := p.Render()
-		fmt.Printf(result)
-	*/
-	fmt.Printf("$ ")
+	p := prompt.NewPrompt()
+	p.Build()
+	result := p.Render()
+	fmt.Printf(result)
+
+	//fmt.Printf("$ ")
 }
