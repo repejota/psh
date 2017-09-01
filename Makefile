@@ -1,10 +1,10 @@
-VERSION=`cat ./VERSION`
+VERSION=`cat VERSION`
 BUILD=`git symbolic-ref HEAD 2> /dev/null | cut -b 12-`-`git log --pretty=format:%h -1`
-PACKAGES = $(shell go list ./...)
+PACKAGES = "./..."
 
 # Setup the -ldflags option for go build here, interpolate the variable
 # values
-LDFLAGS=-ldflags "-X command.Version=${VERSION} -X command.Build=${BUILD}"
+LDFLAGS=-ldflags "-X main.Version=${VERSION} -X main.Build=${BUILD}"
 
 install:
 	go install $(LDFLAGS) -v $(PACKAGES)
