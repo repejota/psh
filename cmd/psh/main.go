@@ -21,8 +21,8 @@ var (
 
 func main() {
 	versionPtr := flag.Bool("version", false, "Show version information")
-	colortestPtr := flag.Bool("colortest", false, "Show colors available on the terminal.")
-	backgroundtestPtr := flag.Bool("backgroundtest", false, "Show backgrounds available on the terminal.")
+	colortestPtr := flag.Bool("colortest", false, "Show available colors on the terminal.")
+	backgroundtestPtr := flag.Bool("backgroundtest", false, "Show available backgrounds on the terminal.")
 	flag.Parse()
 
 	// Version command
@@ -52,5 +52,11 @@ func main() {
 		}
 	}
 
-	fmt.Println("$ ")
+	/*
+		p := prompt.NewPrompt()
+		p.Build()
+		result := p.Render()
+		fmt.Printf(result)
+	*/
+	fmt.Printf("$ ")
 }

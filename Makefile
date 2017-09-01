@@ -6,6 +6,8 @@ PACKAGES = "./..."
 # values
 LDFLAGS=-ldflags "-X main.Version=${VERSION} -X main.Build=${BUILD}"
 
+# Build & Install
+
 install:
 	go install $(LDFLAGS) -v $(PACKAGES)
 
@@ -36,12 +38,15 @@ cover-html:
 lint:
 	gometalinter --tests ./...
 
+# Dependencies
+
 deps:
-	go get -u github.com/spf13/cobra/cobra
 
 dev-deps:
 	go get -u github.com/alecthomas/gometalinter
 	gometalinter --install
+
+# Pacakge and Distribution
 
 dist: dist-linux dist-darwin dist-windows
 
@@ -63,11 +68,20 @@ dist-windows:
 	GOOS=windows GOARCH=386 go build ${LDFLAGS} -o psh-${VERSION}-windows-386.exe
 	zip psh-${VERSION}-windows-386.zip psh-${VERSION}-windows-386.exe README.md LICENSE
 
+# Cleaning up
+
 clean:
 	go clean
 	rm -rf psh-*
 	rm -rf cover.out
 
+# Run
+
 reload:
 	source `pwd`/contrib/install.sh
 
+colortest: install
+	psh --colortest
+
+bgtest: install
+	psh --backgroundtest
