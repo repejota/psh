@@ -1,3 +1,5 @@
+// Copyright 2016-2017 The psh Authors. All rights reserved.
+
 package psh
 
 import (
@@ -25,6 +27,9 @@ func (p *Prompt) AddSegment(key string) error {
 		return nil
 	case "username":
 		p.segments[key] = NewSegmentUsername()
+		return nil
+	case "hostname":
+		p.segments[key] = NewSegmentHostname()
 		return nil
 	default:
 		return errors.New("segment unknown")

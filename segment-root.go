@@ -1,3 +1,5 @@
+// Copyright 2016-2017 The psh Authors. All rights reserved.
+
 package psh
 
 // SegmentRoot implements the root partial of the prompt.
