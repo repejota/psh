@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"strconv"
+	"strings"
 
 	"github.com/repejota/psh"
 )
@@ -33,6 +33,9 @@ func main() {
 	backgroundtestPtr := flag.Bool("backgroundtest",
 		false,
 		"Show available backgrounds on the terminal.")
+	segmentsPtr := flag.String("segments",
+		psh.DefaultSegments,
+		"Segments to show on the propmt.")
 
 	flag.Parse()
 
@@ -41,52 +44,34 @@ func main() {
 	}
 
 	if *colortestPtr {
-		colorTest()
+		psh.ColorTest()
 	}
 
 	if *backgroundtestPtr {
-		backgroundTest()
+		psh.BackgroundTest()
 	}
+
+	segmentsList := strings.Split(*segmentsPtr, ",")
 
 	// Create a prompt instance
-	prompt := psh.NewPrompt()
+	prompt := psh.NewPrompt(segmentsList)
 
-	// Add segment root to the prompt
-	sroot := psh.NewSegmentRoot()
-	err := prompt.AddSegment(sroot)
-	if err != nil {
-		log.Fatal("Can't add segment root to the prompt", err)
+	// Add segments to the propmt
+	for _, sname := range segmentsList {
+		err := prompt.AddSegment(sname)
+		if err != nil {
+			log.Fatalf("Can't add segment %s to the prompt: %s", sname, err)
+		}
 	}
 
+	// Render prompt
 	res := prompt.Render()
-	// Prints rendered prompt to stdout
-	fmt.Printf("%s ", res)
+
+	fmt.Printf("%s", res)
 }
 
 // showVersion prints the current version information.
 func showVersion() {
 	fmt.Println("psh : Version", Version, "Build", Build)
-	os.Exit(0)
-}
-
-// colorTest executes a foreground color test.
-func colorTest() {
-	escape := "\x1b"
-	reset := escape + "[0m"
-	for c := 0; c < 256; c++ {
-		color := fmt.Sprintf("%s[38;5;%sm", escape, strconv.Itoa(c))
-		fmt.Printf("Color %d: '%s%s%s'%s", c, color, "test", reset, "\n")
-	}
-	os.Exit(0)
-}
-
-// backgroundTest executes a backgtound color test.
-func backgroundTest() {
-	escape := "\x1b"
-	reset := escape + "[0m"
-	for c := 0; c < 256; c++ {
-		color := fmt.Sprintf("%s[48;5;%sm", escape, strconv.Itoa(c))
-		fmt.Printf("Color %d: '%s%s%s'%s", c, color, "test", reset, "\n")
-	}
 	os.Exit(0)
 }

@@ -1,6 +1,6 @@
 package psh
 
-// SegmentRoot implements the UID part of the prompt.
+// SegmentRoot implements the root partial of the prompt.
 //
 // It renders the character '#' if the effective UID of the current user is 0,
 // otherwise renders the character '$'.
@@ -13,7 +13,7 @@ func NewSegmentRoot() *SegmentRoot {
 	return segment
 }
 
-// Render renders the segment resaults.
+// Render renders the segment results.
 func (s *SegmentRoot) Render() []byte {
-	return []byte("\\$")
+	return []byte("\\$ ")
 }
