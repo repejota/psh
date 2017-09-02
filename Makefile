@@ -1,6 +1,6 @@
 VERSION=`cat VERSION`
 BUILD=`git symbolic-ref HEAD 2> /dev/null | cut -b 12-`-`git log --pretty=format:%h -1`
-PACKAGES = "./..."
+PACKAGES = $(shell go list ./...)
 
 # Setup the -ldflags option for go build here, interpolate the variable
 # values
@@ -13,6 +13,10 @@ install:
 
 build:
 	go build $(LDFLAGS) -v $(PACKAGES)
+
+.PHONY: version
+version:
+	@echo $(VERSION)-$(BUILD)
 
 # Testing
 
@@ -70,10 +74,11 @@ dist-windows:
 
 # Cleaning up
 
+.PHONY: clean
 clean:
 	go clean
-	rm -rf psh-*
-	rm -rf cover.out
+	rm -rf coverage-all.out
+	rn -rf psh-*
 
 # Run
 

@@ -5,7 +5,6 @@ package main
 import (
 	"flag"
 	"fmt"
-	"log"
 	"os"
 	"strings"
 
@@ -62,12 +61,17 @@ func main() {
 	for _, sname := range segmentsList {
 		err := prompt.AddSegment(sname)
 		if err != nil {
-			log.Fatalf("Can't add segment %s to the prompt: %s", sname, err)
+			fmt.Printf("Can't add segment %s to the prompt: %s", sname, err)
+			os.Exit(1)
 		}
 	}
 
 	// Render prompt
-	res := prompt.Render()
+	res, err := prompt.Render(segmentsList)
+	if err != nil {
+		fmt.Printf("Can't render propmt: %s", err)
+		os.Exit(1)
+	}
 
 	fmt.Printf("%s", res)
 }

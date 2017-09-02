@@ -37,13 +37,16 @@ func (p *Prompt) AddSegment(key string) error {
 }
 
 // Render compiles all the segments of the prompt and concatenate its results.
-func (p *Prompt) Render() []byte {
+//
+// Receives the list of segments to render them in the correct order.
+func (p *Prompt) Render(segmentsList []string) ([]byte, error) {
 	var b bytes.Buffer
 	// Render all segments
-	for _, s := range p.segments {
-		b.Write(s.Render())
+	for _, segmentKey := range segmentsList {
+		segment := p.segments[segmentKey]
+		b.Write(segment.Render())
 	}
 	// Reset foreground and background colors
 	b.Write(ResetFgAndBg())
-	return b.Bytes()
+	return b.Bytes(), nil
 }
