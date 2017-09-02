@@ -22,12 +22,11 @@ func (p *Prompt) AddSegment(s Segment) error {
 	return nil
 }
 
-// String implements Stringer interface and allows the type to describe itself
-// as an string result.
-func (p *Prompt) String() string {
+// Render compiles all the segments of the prompt and concatenate its results.
+func (p *Prompt) Render() []byte {
 	var b bytes.Buffer
 	for _, s := range p.segments {
-		b.WriteString(s.String())
+		b.Write(s.Render())
 	}
-	return b.String()
+	return b.Bytes()
 }

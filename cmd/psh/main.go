@@ -51,15 +51,16 @@ func main() {
 	// Create a prompt instance
 	prompt := psh.NewPrompt()
 
-	// Add segment UID to the prompt
-	suid := psh.NewSegmentUID()
-	err := prompt.AddSegment(suid)
+	// Add segment root to the prompt
+	sroot := psh.NewSegmentRoot()
+	err := prompt.AddSegment(sroot)
 	if err != nil {
-		log.Fatal("Can't add segment UID to the prompt", err)
+		log.Fatal("Can't add segment root to the prompt", err)
 	}
 
+	res := prompt.Render()
 	// Prints rendered prompt to stdout
-	fmt.Printf("%s ", prompt)
+	fmt.Printf("%s ", res)
 }
 
 // showVersion prints the current version information.
