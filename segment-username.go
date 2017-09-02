@@ -2,6 +2,8 @@
 
 package psh
 
+import "bytes"
+
 // SegmentUsername implements the username partial of the prompt.
 //
 // It renders the current username.
@@ -16,5 +18,8 @@ func NewSegmentUsername() *SegmentUsername {
 
 // Render renders the segment results.
 func (s *SegmentUsername) Render() []byte {
-	return []byte("\\u ")
+	var b bytes.Buffer
+	b.Write(SetBackground(236))
+	b.Write([]byte(" \\u "))
+	return b.Bytes()
 }

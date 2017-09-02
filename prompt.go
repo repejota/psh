@@ -50,6 +50,7 @@ func (p *Prompt) Render(segmentsList []string) ([]byte, error) {
 		b.Write(segment.Render())
 	}
 	// Reset foreground and background colors
-	b.Write(ResetFgAndBg())
+	b.Write(ResetFgBg())
+	b.WriteRune(' ')
 	return b.Bytes(), nil
 }

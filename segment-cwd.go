@@ -2,6 +2,8 @@
 
 package psh
 
+import "bytes"
+
 // SegmentCWD implements the cueewnr working directory partial of the prompt.
 //
 // It renders the current working directory path.
@@ -16,5 +18,8 @@ func NewSegmentCWD() *SegmentCWD {
 
 // Render renders the segment results.
 func (s *SegmentCWD) Render() []byte {
-	return []byte("\\w ")
+	var b bytes.Buffer
+	b.Write(SetBackground(238))
+	b.Write([]byte(" \\w "))
+	return b.Bytes()
 }

@@ -2,6 +2,8 @@
 
 package psh
 
+import "bytes"
+
 // SegmentHostname implements the hostname partial of the prompt.
 //
 // It renders the current hostname.
@@ -16,5 +18,8 @@ func NewSegmentHostname() *SegmentHostname {
 
 // Render renders the segment results.
 func (s *SegmentHostname) Render() []byte {
-	return []byte("\\h ")
+	var b bytes.Buffer
+	b.Write(SetBackground(237))
+	b.Write([]byte(" \\h "))
+	return b.Bytes()
 }

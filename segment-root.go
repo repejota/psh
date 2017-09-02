@@ -2,6 +2,10 @@
 
 package psh
 
+import (
+	"bytes"
+)
+
 // SegmentRoot implements the root partial of the prompt.
 //
 // It renders the character '#' if the effective UID of the current user is 0,
@@ -17,5 +21,8 @@ func NewSegmentRoot() *SegmentRoot {
 
 // Render renders the segment results.
 func (s *SegmentRoot) Render() []byte {
-	return []byte("\\$ ")
+	var b bytes.Buffer
+	b.Write(SetBackground(239))
+	b.Write([]byte(" \\$ "))
+	return b.Bytes()
 }
