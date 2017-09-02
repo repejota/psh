@@ -2,24 +2,33 @@ package psh
 
 import (
 	"bytes"
+	"errors"
 )
 
 // Prompt is the type that defines a shell prompt.
 type Prompt struct {
-	segments []Segment
+	segments map[string]Segment
 }
 
 // NewPrompt creates a new Prompt type instance.
-func NewPrompt() *Prompt {
+func NewPrompt(segmentsList []string) *Prompt {
 	p := &Prompt{}
-	p.segments = make([]Segment, 0)
+	p.segments = make(map[string]Segment, len(segmentsList))
 	return p
 }
 
 // AddSegment appends a segment to the prompt.
-func (p *Prompt) AddSegment(s Segment) error {
-	p.segments = append(p.segments, s)
-	return nil
+func (p *Prompt) AddSegment(key string) error {
+	switch key {
+	case "root":
+		p.segments[key] = NewSegmentRoot()
+		return nil
+	case "username":
+		p.segments[key] = NewSegmentUsername()
+		return nil
+	default:
+		return errors.New("segment unknown")
+	}
 }
 
 // Render compiles all the segments of the prompt and concatenate its results.
