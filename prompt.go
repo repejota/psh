@@ -31,6 +31,9 @@ func (p *Prompt) AddSegment(key string) error {
 	case "hostname":
 		p.segments[key] = NewSegmentHostname()
 		return nil
+	case "cwd":
+		p.segments[key] = NewSegmentCWD()
+		return nil
 	default:
 		return errors.New("segment unknown")
 	}
