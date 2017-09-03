@@ -16,8 +16,8 @@ func NewSegmentUsername() *SegmentUsername {
 	return segment
 }
 
-// Render renders the segment results.
-func (s *SegmentUsername) Render() []byte {
+// Compile renders the segment results.
+func (s *SegmentUsername) Compile() []byte {
 	var b bytes.Buffer
 	b.Write(SetBackground(236))
 	b.Write([]byte(" \\u "))

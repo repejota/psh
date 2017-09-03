@@ -16,8 +16,8 @@ func NewSegmentCWD() *SegmentCWD {
 	return segment
 }
 
-// Render renders the segment results.
-func (s *SegmentCWD) Render() []byte {
+// Compile renders the segment results.
+func (s *SegmentCWD) Compile() []byte {
 	var b bytes.Buffer
 	b.Write(SetBackground(238))
 	b.Write([]byte(" \\w "))

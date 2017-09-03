@@ -19,8 +19,8 @@ func NewSegmentRoot() *SegmentRoot {
 	return segment
 }
 
-// Render renders the segment results.
-func (s *SegmentRoot) Render() []byte {
+// Compile renders the segment results.
+func (s *SegmentRoot) Compile() []byte {
 	var b bytes.Buffer
 	b.Write(SetBackground(239))
 	b.Write([]byte(" \\$ "))

@@ -16,8 +16,8 @@ func NewSegmentHostname() *SegmentHostname {
 	return segment
 }
 
-// Render renders the segment results.
-func (s *SegmentHostname) Render() []byte {
+// Compile renders the segment results.
+func (s *SegmentHostname) Compile() []byte {
 	var b bytes.Buffer
 	b.Write(SetBackground(237))
 	b.Write([]byte(" \\h "))
