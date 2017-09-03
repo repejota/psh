@@ -21,51 +21,45 @@ var (
 	//
 	// This string is the branch name and the commit hash (short format)
 	Build string
-
-	versionFlag        bool
-	colortestFlag      bool
-	backgroundtestFlag bool
-	segmentsFlag       string
 )
-
-func init() {
-	flag.BoolVar(&versionFlag, "version", false, "Show version information")
-	flag.BoolVar(&colortestFlag, "colortest", false, "Show available colors on the terminazl.")
-	flag.BoolVar(&backgroundtestFlag, "backgroundtest", false, "Show available backgrounds on the terminal.")
-	flag.StringVar(&segmentsFlag, "segments", psh.DefaultSegments, "Segments to show on the propmt.")
-}
 
 func main() {
 	log.SetFlags(0)
 	log.SetPrefix("psh: ")
 
+	var (
+		// Define CLI flags.
+		versionFlag        = flag.Bool("version", false, "Show version information")
+		colortestFlag      = flag.Bool("colortest", false, "Show available colors on the terminazl.")
+		backgroundtestFlag = flag.Bool("backgroundtest", false, "Show available backgrounds on the terminal.")
+		segmentsFlag       = flag.String("segments", psh.DefaultSegments, "Segments to show on the propmt.")
+	)
 	flag.Parse()
-	if versionFlag {
+	if *versionFlag {
 		versionInfo := showVersion()
 		fmt.Println(versionInfo)
 		os.Exit(0)
 	}
-	if colortestFlag {
+	if *colortestFlag {
 		ColorTest()
 		os.Exit(0)
 	}
-	if backgroundtestFlag {
+	if *backgroundtestFlag {
 		BackgroundTest()
 		os.Exit(0)
 	}
-
-	err := doPSH()
+	err := doPSH(*segmentsFlag)
 	if err != nil {
 		log.Fatal(err)
 	}
 }
 
-// doPSH builds the prompt decoupled from main function to easy tests.
-func doPSH() error {
+// doPSH compiles and renders the prompt.
+func doPSH(segmentsFlag string) error {
 	// Create a prompt instance
 	prompt := psh.NewPrompt(segmentsFlag)
 
-	// Compile prompt (all of its segments)
+	// Compile prompt
 	err := prompt.Compile()
 	if err != nil {
 		return err
