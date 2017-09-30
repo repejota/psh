@@ -3,38 +3,37 @@
 package psh
 
 import (
+	"errors"
 	"strings"
+	"sync"
 )
 
-// Prompt is the type that defines a shell prompt.
+// Prompt type that defines the shell prompt structure.
 type Prompt struct {
-	segmentKeys []string
-	segments    map[string]Segment
+	mu       sync.Mutex
+	keys     []string
+	segments map[string]Segment
 }
 
-// NewPrompt creates a new Prompt type instance.
-func NewPrompt(segmentsFlag string) *Prompt {
-	p := &Prompt{}
-	p.segments = make(map[string]Segment)
-	p.segmentKeys = p.parseSegmentsFlag(segmentsFlag)
-	return p
-}
-
-// parseSegmentsFlag ...
-func (p *Prompt) parseSegmentsFlag(segmentsFlag string) []string {
-	// Get the segments the prompt will use
-	segmentKeys := strings.Split(segmentsFlag, ",")
-	// Clean list
-	for key, segmentName := range segmentKeys {
-		if segmentName == "" {
-			segmentKeys = segmentKeys[:key+copy(segmentKeys[key:], segmentKeys[key+1:])]
-		}
+// NewPrompt creates a new prompt and returns a pointer to its instance.
+func NewPrompt(segments string) (*Prompt, error) {
+	keys := strings.Split(segments, ",")
+	prompt := &Prompt{
+		keys:     keys,
+		segments: make(map[string]Segment, len(keys)),
 	}
-	return segmentKeys
+	return prompt, nil
 }
 
-// Compile ...
+// Compile traverses all available segments, and in paralel add them to the
+// prompt. It also process each segment to get all the data needed to render.
 func (p *Prompt) Compile() error {
+	var wg sync.WaitGroup
+	wg.Add(len(p.keys))
+	for _, v := range p.keys {
+		go p.addSegment(&wg, v)
+	}
+	wg.Wait()
 	return nil
 }
 
@@ -43,25 +42,29 @@ func (p *Prompt) Render() (string, error) {
 	return "", nil
 }
 
-/*
-// AddSegment appends a segment to the prompt.
-func (p *Prompt) AddSegment(key string) error {
+// addSegment adds a segment instance by its name to the prompt.
+func (p *Prompt) addSegment(wg *sync.WaitGroup, key string) error {
+	defer wg.Done()
+	var segment Segment
 	switch key {
 	case "root":
-		p.segments[key] = NewSegmentRoot()
+		segment = NewSegmentRoot()
 	case "username":
-		p.segments[key] = NewSegmentUsername()
+		segment = NewSegmentUsername()
 	case "hostname":
-		p.segments[key] = NewSegmentHostname()
+		segment = NewSegmentHostname()
 	case "cwd":
-		p.segments[key] = NewSegmentCWD()
+		segment = NewSegmentCWD()
 	default:
 		return errors.New("segment unknown")
 	}
+	p.mu.Lock()
+	p.segments[key] = segment
+	p.mu.Unlock()
 	return nil
 }
 
-
+/*
 // Render compiles all the segments on the prompt and concatenates its results.
 //
 // Receives the list of segments to render them in the correct order.
