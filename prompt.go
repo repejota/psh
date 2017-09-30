@@ -3,7 +3,6 @@
 package psh
 
 import (
-	"errors"
 	"strings"
 	"sync"
 )
@@ -43,7 +42,7 @@ func (p *Prompt) Render() (string, error) {
 }
 
 // addSegment adds a segment instance by its name to the prompt.
-func (p *Prompt) addSegment(wg *sync.WaitGroup, key string) error {
+func (p *Prompt) addSegment(wg *sync.WaitGroup, key string) {
 	defer wg.Done()
 	var segment Segment
 	switch key {
@@ -55,13 +54,10 @@ func (p *Prompt) addSegment(wg *sync.WaitGroup, key string) error {
 		segment = NewSegmentHostname()
 	case "cwd":
 		segment = NewSegmentCWD()
-	default:
-		return errors.New("segment unknown")
 	}
 	p.mu.Lock()
 	p.segments[key] = segment
 	p.mu.Unlock()
-	return nil
 }
 
 /*
