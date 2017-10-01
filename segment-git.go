@@ -12,7 +12,7 @@ import (
 //
 // It renders the current branch if the folder contains a repository.
 type SegmentGit struct {
-	Data string
+	Data []byte
 }
 
 // NewSegmentGit creates an instace of SegmentHostname type.
@@ -24,16 +24,16 @@ func NewSegmentGit() *SegmentGit {
 // Compile ...
 func (s *SegmentGit) Compile() {
 	currentBranch := getCurrentBranch()
-	s.Data = string(currentBranch)
+	s.Data = []byte(currentBranch)
 }
 
 // Render renders the segment results.
 func (s *SegmentGit) Render() []byte {
 	var b bytes.Buffer
-	if s.Data != "" {
+	if len(s.Data) != 0 {
 		b.Write(SetBackground(202))
 		b.Write([]byte(" "))
-		b.Write([]byte(s.Data))
+		b.Write(s.Data)
 		b.Write([]byte(" "))
 	}
 	return b.Bytes()

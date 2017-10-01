@@ -8,7 +8,7 @@ import "bytes"
 //
 // It renders the current hostname.
 type SegmentHostname struct {
-	Data string
+	Data []byte
 }
 
 // NewSegmentHostname creates an instace of SegmentHostname type.
@@ -19,16 +19,16 @@ func NewSegmentHostname() *SegmentHostname {
 
 // Compile ...
 func (s *SegmentHostname) Compile() {
-	s.Data = "\\h"
+	s.Data = []byte("\\h")
 }
 
 // Render renders the segment results.
 func (s *SegmentHostname) Render() []byte {
 	var b bytes.Buffer
-	if s.Data != "" {
+	if len(s.Data) != 0 {
 		b.Write(SetBackground(237))
 		b.Write([]byte(" "))
-		b.Write([]byte(s.Data))
+		b.Write(s.Data)
 		b.Write([]byte(" "))
 	}
 	return b.Bytes()
