@@ -14,13 +14,13 @@ type Prompt struct {
 }
 
 // NewPrompt creates a new prompt and returns a pointer to its instance.
-func NewPrompt(segments string) (*Prompt, error) {
+func NewPrompt(segments string) *Prompt {
 	keys := getSegmentsList(segments)
 	prompt := &Prompt{
 		keys:     keys,
-		segments: make(map[string]Segment, len(keys)),
+		segments: make(map[string]Segment),
 	}
-	return prompt, nil
+	return prompt
 }
 
 // Compile traverses all available segments. It also process each segment to

@@ -58,13 +58,10 @@ func main() {
 // doPSH compiles and renders the prompt.
 func doPSH(segmentsFlag string) ([]byte, error) {
 	// Create a prompt
-	prompt, err := psh.NewPrompt(segmentsFlag)
-	if err != nil {
-		return nil, err
-	}
+	prompt := psh.NewPrompt(segmentsFlag)
 
 	// Compile prompt
-	err = prompt.Compile()
+	err := prompt.Compile()
 	if err != nil {
 		return nil, err
 	}
