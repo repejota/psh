@@ -4,11 +4,11 @@ package psh
 
 import (
 	"fmt"
-	"os"
 )
 
 const (
-	// colorTemplate ...
+	// colorTemplate is an escaped template to apply color to text using ANSI
+	// escape sequences.
 	colorTemplate = "\\[\\e%s\\]"
 )
 
@@ -42,26 +42,4 @@ func SetForeground(foreground uint8) []byte {
 	fg := fmt.Sprintf("[38;5;%dm", foreground)
 	escapeSequence := fmt.Sprintf(colorTemplate, fg)
 	return []byte(escapeSequence)
-}
-
-// ColorTest executes a foreground color test.
-func ColorTest() {
-	escape := "\x1b"
-	for c := 0; c < 256; c++ {
-		color := fmt.Sprintf("%s[38;5;%dm", escape, c)
-		fmt.Printf("%s%d\n", color, c)
-	}
-	fmt.Printf("%s[0m", escape)
-	os.Exit(0)
-}
-
-// BackgroundTest executes a backgtound color test.
-func BackgroundTest() {
-	escape := "\x1b"
-	for c := 0; c < 256; c++ {
-		background := fmt.Sprintf("%s[48;5;%dm", escape, c)
-		fmt.Printf("%s%d\n", background, c)
-	}
-	fmt.Printf("%s[0m", escape)
-	os.Exit(0)
 }

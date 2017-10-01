@@ -5,8 +5,8 @@ package main
 import (
 	"flag"
 	"fmt"
+	"log"
 	"os"
-	"strings"
 
 	"github.com/repejota/psh"
 )
@@ -24,60 +24,70 @@ var (
 )
 
 func main() {
-	// Define CLI flags
-	versionPtr := flag.Bool("version",
-		false,
-		"Show version information")
-	colortestPtr := flag.Bool("colortest",
-		false,
-		"Show available colors on the terminal.")
-	backgroundtestPtr := flag.Bool("backgroundtest",
-		false,
-		"Show available backgrounds on the terminal.")
-	segmentsPtr := flag.String("segments",
-		psh.DefaultSegments,
-		"Segments to show on the propmt.")
+	log.SetFlags(0)
+	log.SetPrefix("psh: ")
 
+	var (
+		// Define CLI flags.
+		versionFlag        = flag.Bool("version", false, "Show version information")
+		colortestFlag      = flag.Bool("colortest", false, "Show available colors on the terminazl.")
+		backgroundtestFlag = flag.Bool("backgroundtest", false, "Show available backgrounds on the terminal.")
+		segmentsFlag       = flag.String("segments", psh.DefaultSegments, "Segments to show on the propmt.")
+	)
 	flag.Parse()
-
-	if *versionPtr {
-		showVersion()
+	if *versionFlag {
+		versionInfo := showVersion()
+		fmt.Println(versionInfo)
+		os.Exit(0)
 	}
-
-	if *colortestPtr {
-		psh.ColorTest()
+	if *colortestFlag {
+		ColorTest()
+		os.Exit(0)
 	}
-
-	if *backgroundtestPtr {
-		psh.BackgroundTest()
+	if *backgroundtestFlag {
+		BackgroundTest()
+		os.Exit(0)
 	}
+	result := doPSH(*segmentsFlag)
+	fmt.Printf("%s", result)
+}
 
-	segmentsList := strings.Split(*segmentsPtr, ",")
+// doPSH compiles and renders the prompt.
+func doPSH(segmentsFlag string) []byte {
+	// Create a prompt
+	prompt := psh.NewPrompt(segmentsFlag)
 
-	// Create a prompt instance
-	prompt := psh.NewPrompt(segmentsList)
-
-	// Add segments to the propmt
-	for _, sname := range segmentsList {
-		err := prompt.AddSegment(sname)
-		if err != nil {
-			fmt.Printf("Can't add segment %s to the prompt: %s", sname, err)
-			os.Exit(1)
-		}
-	}
+	// Compile prompt
+	prompt.Compile()
 
 	// Render prompt
-	res, err := prompt.Render(segmentsList)
-	if err != nil {
-		fmt.Printf("Can't render propmt: %s", err)
-		os.Exit(1)
-	}
+	result := prompt.Render()
 
-	fmt.Printf("%s", res)
+	return result
 }
 
 // showVersion prints the current version information.
-func showVersion() {
-	fmt.Println("psh : Version", Version, "Build", Build)
-	os.Exit(0)
+func showVersion() string {
+	versionInfo := fmt.Sprintf("psh : Version %s Build %s", Version, Build)
+	return versionInfo
+}
+
+// ColorTest executes a foreground color test.
+func ColorTest() {
+	escape := "\x1b"
+	for c := 0; c < 256; c++ {
+		color := fmt.Sprintf("%s[38;5;%dm", escape, c)
+		fmt.Printf("%s%d\n", color, c)
+	}
+	fmt.Printf("%s[0m", escape)
+}
+
+// BackgroundTest executes a backgtound color test.
+func BackgroundTest() {
+	escape := "\x1b"
+	for c := 0; c < 256; c++ {
+		background := fmt.Sprintf("%s[48;5;%dm", escape, c)
+		fmt.Printf("%s%d\n", background, c)
+	}
+	fmt.Printf("%s[0m", escape)
 }

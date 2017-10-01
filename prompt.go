@@ -4,53 +4,87 @@ package psh
 
 import (
 	"bytes"
-	"errors"
+	"strings"
+	"sync"
 )
 
-// Prompt is the type that defines a shell prompt.
+// Prompt type that defines the shell prompt structure.
 type Prompt struct {
-	segments map[string]Segment
+	keys         []string
+	segmentsLock sync.Mutex
+	segments     map[string]Segment
 }
 
-// NewPrompt creates a new Prompt type instance.
-func NewPrompt(segmentsList []string) *Prompt {
-	p := &Prompt{}
-	p.segments = make(map[string]Segment, len(segmentsList))
-	return p
-}
-
-// AddSegment appends a segment to the prompt.
-func (p *Prompt) AddSegment(key string) error {
-	switch key {
-	case "root":
-		p.segments[key] = NewSegmentRoot()
-		return nil
-	case "username":
-		p.segments[key] = NewSegmentUsername()
-		return nil
-	case "hostname":
-		p.segments[key] = NewSegmentHostname()
-		return nil
-	case "cwd":
-		p.segments[key] = NewSegmentCWD()
-		return nil
-	default:
-		return errors.New("segment unknown")
+// NewPrompt creates a new prompt and returns a pointer to its instance.
+func NewPrompt(segments string) *Prompt {
+	keys := getSegmentsList(segments)
+	prompt := &Prompt{
+		keys:     keys,
+		segments: make(map[string]Segment),
 	}
+	return prompt
 }
 
-// Render compiles all the segments of the prompt and concatenate its results.
+// Compile traverses all available segments. It also process each segment to
+// get all the data needed to render.
+func (p *Prompt) Compile() {
+	var wg sync.WaitGroup
+	wg.Add(len(p.keys))
+	for _, v := range p.keys {
+		go func(v string) {
+			defer wg.Done()
+			segment := p.getSegment(v)
+			segment.Compile()
+			p.segmentsLock.Lock()
+			p.segments[v] = segment
+			p.segmentsLock.Unlock()
+		}(v)
+	}
+	wg.Wait()
+}
+
+// Render compiles all the segments on the prompt and concatenates its results.
 //
 // Receives the list of segments to render them in the correct order.
-func (p *Prompt) Render(segmentsList []string) ([]byte, error) {
+func (p *Prompt) Render() []byte {
 	var b bytes.Buffer
 	// Render all segments
-	for _, segmentKey := range segmentsList {
-		segment := p.segments[segmentKey]
-		b.Write(segment.Render())
+	for _, v := range p.keys {
+		segmentInstance := p.segments[v]
+		b.Write(segmentInstance.Render())
 	}
 	// Reset foreground and background colors
 	b.Write(ResetFgBg())
 	b.WriteRune(' ')
-	return b.Bytes(), nil
+	return b.Bytes()
+}
+
+// getSegment gets a segment instance by its name to the prompt.
+func (p *Prompt) getSegment(key string) Segment {
+	var segment Segment
+	switch key {
+	case "root":
+		segment = NewSegmentRoot()
+	case "username":
+		segment = NewSegmentUsername()
+	case "hostname":
+		segment = NewSegmentHostname()
+	case "cwd":
+		segment = NewSegmentCWD()
+	case "git":
+		segment = NewSegmentGit()
+	default:
+		segment = NewSegmentUnknown()
+	}
+	return segment
+}
+
+func getSegmentsList(segments string) []string {
+	keys := strings.Split(segments, ",")
+	for i, v := range keys {
+		if v == "" {
+			keys = append(keys[:i], keys[i+1:]...)
+		}
+	}
+	return keys
 }

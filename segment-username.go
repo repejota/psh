@@ -8,6 +8,7 @@ import "bytes"
 //
 // It renders the current username.
 type SegmentUsername struct {
+	Data []byte
 }
 
 // NewSegmentUsername creates an instace of SegmentUsername type.
@@ -16,10 +17,19 @@ func NewSegmentUsername() *SegmentUsername {
 	return segment
 }
 
+// Compile ...
+func (s *SegmentUsername) Compile() {
+	s.Data = []byte("\\u")
+}
+
 // Render renders the segment results.
 func (s *SegmentUsername) Render() []byte {
 	var b bytes.Buffer
-	b.Write(SetBackground(236))
-	b.Write([]byte(" \\u "))
+	if len(s.Data) != 0 {
+		b.Write(SetBackground(236))
+		b.Write([]byte(" "))
+		b.Write(s.Data)
+		b.Write([]byte(" "))
+	}
 	return b.Bytes()
 }
