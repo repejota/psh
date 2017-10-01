@@ -22,17 +22,20 @@ version:
 test:
 	go test -v $(PACKAGES)
 
-.PHONY: cover
-cover:
-	go test -cover $(PACKAGES)
-
-.PHONY: cover-html
-cover-html:
+.PHONY: cover-profile
+cover-profile:
 	echo "mode: count" > coverage-all.out
 	$(foreach pkg,$(PACKAGES),\
 		go test -coverprofile=coverage.out -covermode=count $(pkg);\
 		tail -n +2 coverage.out >> coverage-all.out;)
 	rm -rf coverage.out
+
+.PHONY: cover
+cover: cover-profile
+	go tool cover -func=coverage-all.out
+
+.PHONY: cover-html
+cover-html: cover-profile
 	go tool cover -html=coverage-all.out
 
 # Lint
