@@ -1,4 +1,5 @@
-cover.out
 .idea
 .vscode
+cover.out
 coverage-all.out
+.contrib
