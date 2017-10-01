@@ -8,6 +8,7 @@ import "bytes"
 //
 // It renders the current working directory path.
 type SegmentCWD struct {
+	Data string
 }
 
 // NewSegmentCWD creates an instace of SegmentCWD type.
@@ -16,10 +17,15 @@ func NewSegmentCWD() *SegmentCWD {
 	return segment
 }
 
-// Compile renders the segment results.
-func (s *SegmentCWD) Compile() []byte {
+// Compile ...
+func (s *SegmentCWD) Compile() {
+	s.Data = " \\w "
+}
+
+// Render renders the segment results.
+func (s *SegmentCWD) Render() []byte {
 	var b bytes.Buffer
 	b.Write(SetBackground(238))
-	b.Write([]byte(" \\w "))
+	b.Write([]byte(s.Data))
 	return b.Bytes()
 }

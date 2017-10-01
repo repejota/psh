@@ -3,13 +3,12 @@
 package psh
 
 import (
+	"bytes"
 	"strings"
-	"sync"
 )
 
 // Prompt type that defines the shell prompt structure.
 type Prompt struct {
-	mu       sync.Mutex
 	keys     []string
 	segments map[string]Segment
 }
@@ -24,26 +23,34 @@ func NewPrompt(segments string) (*Prompt, error) {
 	return prompt, nil
 }
 
-// Compile traverses all available segments, and in paralel add them to the
-// prompt. It also process each segment to get all the data needed to render.
+// Compile traverses all available segments. It also process each segment to
+// get all the data needed to render.
 func (p *Prompt) Compile() error {
-	var wg sync.WaitGroup
-	wg.Add(len(p.keys))
 	for _, v := range p.keys {
-		go p.addSegment(&wg, v)
+		p.addSegment(v)
 	}
-	wg.Wait()
 	return nil
 }
 
-// Render ...
-func (p *Prompt) Render() (string, error) {
-	return "", nil
+// Render compiles all the segments on the prompt and concatenates its results.
+//
+// Receives the list of segments to render them in the correct order.
+func (p *Prompt) Render() ([]byte, error) {
+	var b bytes.Buffer
+	// Render all segments
+	for _, v := range p.keys {
+		segmentInstance := p.segments[v]
+		b.Write(segmentInstance.Render())
+	}
+	// Reset foreground and background colors
+	b.Write(ResetFgBg())
+	b.WriteRune(' ')
+	return b.Bytes(), nil
 }
 
 // addSegment adds a segment instance by its name to the prompt.
-func (p *Prompt) addSegment(wg *sync.WaitGroup, key string) {
-	defer wg.Done()
+// TODO : Should be done in paralel
+func (p *Prompt) addSegment(key string) {
 	var segment Segment
 	switch key {
 	case "root":
@@ -55,25 +62,6 @@ func (p *Prompt) addSegment(wg *sync.WaitGroup, key string) {
 	case "cwd":
 		segment = NewSegmentCWD()
 	}
-	p.mu.Lock()
+	segment.Compile()
 	p.segments[key] = segment
-	p.mu.Unlock()
 }
-
-/*
-// Render compiles all the segments on the prompt and concatenates its results.
-//
-// Receives the list of segments to render them in the correct order.
-func (p *Prompt) Render(segmentsList []string) ([]byte, error) {
-	var b bytes.Buffer
-	// Render all segments
-	for _, segmentKey := range segmentsList {
-		segmentInstance := p.segments[segmentKey]
-		b.Write(segmentInstance.Compile())
-	}
-	// Reset foreground and background colors
-	b.Write(ResetFgBg())
-	b.WriteRune(' ')
-	return b.Bytes(), nil
-}
-*/

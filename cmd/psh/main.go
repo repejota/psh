@@ -74,7 +74,6 @@ func doPSH(segmentsFlag string) error {
 		return err
 	}
 
-	fmt.Println(prompt)
 	fmt.Printf("%s", result)
 	return nil
 }

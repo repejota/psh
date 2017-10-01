@@ -11,6 +11,7 @@ import (
 // It renders the character '#' if the effective UID of the current user is 0,
 // otherwise renders the character '$'.
 type SegmentRoot struct {
+	Data string
 }
 
 // NewSegmentRoot creates an instace of SegmentRoot type.
@@ -19,10 +20,15 @@ func NewSegmentRoot() *SegmentRoot {
 	return segment
 }
 
-// Compile renders the segment results.
-func (s *SegmentRoot) Compile() []byte {
+// Compile ...
+func (s *SegmentRoot) Compile() {
+	s.Data = " \\$ "
+}
+
+// Render renders the segment results.
+func (s *SegmentRoot) Render() []byte {
 	var b bytes.Buffer
 	b.Write(SetBackground(239))
-	b.Write([]byte(" \\$ "))
+	b.Write([]byte(s.Data))
 	return b.Bytes()
 }
