@@ -9,7 +9,7 @@ import (
 const (
 	// colorTemplate is an escaped template to apply color to text using ANSI
 	// escape sequences.
-	colorTemplate = "\\[\\e%s\\]"
+	colorTemplate = `\[\e%s\]`
 )
 
 // ResetFgBg resets foreground and background to default values.
