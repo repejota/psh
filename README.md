@@ -14,13 +14,13 @@ A prompt generator
 
 How to install:
 
-```
+```bash
 $ go get -u github.com/repejota/psh
 ```
 
 And use this on your `.bash_profile`
 
-```
+```bash
 # Usage:
 # $ source install.sh
 
