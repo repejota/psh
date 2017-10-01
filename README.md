@@ -5,8 +5,8 @@ A prompt generator
 * Master : [![CircleCI](https://circleci.com/gh/repejota/psh/tree/master.svg?style=svg)](https://circleci.com/gh/repejota/psh/tree/master)
 * Develop : [![CircleCI](https://circleci.com/gh/repejota/psh/tree/develop.svg?style=svg)](https://circleci.com/gh/repejota/psh/tree/develop)
 
-* Coverage Master: [![codecov](https://codecov.io/gh/repejota/psh/branch/master/graph/badge.svg)](https://codecov.io/gh/repejota/psh)
-* Coverage Develop: [![codecov](https://codecov.io/gh/repejota/psh/branch/develop/graph/badge.svg)](https://codecov.io/gh/repejota/psh)
+* Coverage Master: [![Coverage Status](https://coveralls.io/repos/github/repejota/psh/badge.svg?branch=master)](https://coveralls.io/github/repejota/psh?branch=master)
+* Coverage Develop: [![Coverage Status](https://coveralls.io/repos/github/repejota/psh/badge.svg?branch=develop)](https://coveralls.io/github/repejota/psh?branch=develop)
 
 * Go Report Card: [![Go Report Card](https://goreportcard.com/badge/github.com/repejota/psh)](https://goreportcard.com/report/github.com/repejota/psh)
 
