@@ -19,13 +19,17 @@ func NewSegmentCWD() *SegmentCWD {
 
 // Compile ...
 func (s *SegmentCWD) Compile() {
-	s.Data = " \\w "
+	s.Data = "\\w"
 }
 
 // Render renders the segment results.
 func (s *SegmentCWD) Render() []byte {
 	var b bytes.Buffer
-	b.Write(SetBackground(238))
-	b.Write([]byte(s.Data))
+	if s.Data != "" {
+		b.Write(SetBackground(238))
+		b.Write([]byte(" "))
+		b.Write([]byte(s.Data))
+		b.Write([]byte(" "))
+	}
 	return b.Bytes()
 }

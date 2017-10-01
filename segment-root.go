@@ -22,13 +22,17 @@ func NewSegmentRoot() *SegmentRoot {
 
 // Compile ...
 func (s *SegmentRoot) Compile() {
-	s.Data = " \\$ "
+	s.Data = "\\$"
 }
 
 // Render renders the segment results.
 func (s *SegmentRoot) Render() []byte {
 	var b bytes.Buffer
-	b.Write(SetBackground(239))
-	b.Write([]byte(s.Data))
+	if s.Data != "" {
+		b.Write(SetBackground(239))
+		b.Write([]byte(" "))
+		b.Write([]byte(s.Data))
+		b.Write([]byte(" "))
+	}
 	return b.Bytes()
 }

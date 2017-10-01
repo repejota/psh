@@ -19,13 +19,17 @@ func NewSegmentUsername() *SegmentUsername {
 
 // Compile ...
 func (s *SegmentUsername) Compile() {
-	s.Data = " \\u "
+	s.Data = "\\u"
 }
 
 // Render renders the segment results.
 func (s *SegmentUsername) Render() []byte {
 	var b bytes.Buffer
-	b.Write(SetBackground(236))
-	b.Write([]byte(s.Data))
+	if s.Data != "" {
+		b.Write(SetBackground(236))
+		b.Write([]byte(" "))
+		b.Write([]byte(s.Data))
+		b.Write([]byte(" "))
+	}
 	return b.Bytes()
 }

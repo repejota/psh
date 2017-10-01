@@ -19,13 +19,17 @@ func NewSegmentHostname() *SegmentHostname {
 
 // Compile ...
 func (s *SegmentHostname) Compile() {
-	s.Data = " \\h "
+	s.Data = "\\h"
 }
 
 // Render renders the segment results.
 func (s *SegmentHostname) Render() []byte {
 	var b bytes.Buffer
-	b.Write(SetBackground(237))
-	b.Write([]byte(s.Data))
+	if s.Data != "" {
+		b.Write(SetBackground(237))
+		b.Write([]byte(" "))
+		b.Write([]byte(s.Data))
+		b.Write([]byte(" "))
+	}
 	return b.Bytes()
 }

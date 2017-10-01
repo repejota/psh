@@ -4,7 +4,6 @@ package psh
 
 import (
 	"bytes"
-	"log"
 	"os/exec"
 	"strings"
 )
@@ -24,21 +23,28 @@ func NewSegmentGit() *SegmentGit {
 
 // Compile ...
 func (s *SegmentGit) Compile() {
-	command := exec.Command("git", "rev-parse", "--abbrev-ref", "HEAD")
-	commandOut, err := command.Output()
-	if err != nil {
-		log.Fatal(err)
-	}
-	currentBranch := strings.Trim(string(commandOut), "\n")
-	//fmt.Println(string(currentBranch))
-	s.Data = " " + string(currentBranch) + " "
-	//s.Data = " develop "
+	currentBranch := getCurrentBranch()
+	s.Data = string(currentBranch)
 }
 
 // Render renders the segment results.
 func (s *SegmentGit) Render() []byte {
 	var b bytes.Buffer
-	b.Write(SetBackground(202))
-	b.Write([]byte(s.Data))
+	if s.Data != "" {
+		b.Write(SetBackground(202))
+		b.Write([]byte(" "))
+		b.Write([]byte(s.Data))
+		b.Write([]byte(" "))
+	}
 	return b.Bytes()
+}
+
+func getCurrentBranch() string {
+	command := exec.Command("git", "rev-parse", "--abbrev-ref", "HEAD")
+	commandOut, err := command.Output()
+	if err != nil {
+		return ""
+	}
+	currentBranch := strings.Trim(string(commandOut), "\n")
+	return currentBranch
 }
