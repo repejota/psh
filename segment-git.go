@@ -8,6 +8,9 @@ import (
 	"strings"
 )
 
+// git rev-parse --show-toplevel : shows root of the repo
+// git status --porcelain -b : shows conmplete status of the repo
+
 // SegmentGit implements the git SCM partial of the prompt.
 //
 // It renders the current branch if the folder contains a repository.
