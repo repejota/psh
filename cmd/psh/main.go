@@ -48,30 +48,22 @@ func main() {
 		BackgroundTest()
 		os.Exit(0)
 	}
-	result, err := doPSH(*segmentsFlag)
-	if err != nil {
-		log.Fatal(err)
-	}
+	result := doPSH(*segmentsFlag)
 	fmt.Printf("%s", result)
 }
 
 // doPSH compiles and renders the prompt.
-func doPSH(segmentsFlag string) ([]byte, error) {
+func doPSH(segmentsFlag string) []byte {
 	// Create a prompt
 	prompt := psh.NewPrompt(segmentsFlag)
 
 	// Compile prompt
-	err := prompt.Compile()
-	if err != nil {
-		return nil, err
-	}
+	prompt.Compile()
 
 	// Render prompt
-	result, err := prompt.Render()
-	if err != nil {
-		return nil, err
-	}
-	return result, nil
+	result := prompt.Render()
+
+	return result
 }
 
 // showVersion prints the current version information.

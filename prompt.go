@@ -5,12 +5,14 @@ package psh
 import (
 	"bytes"
 	"strings"
+	"sync"
 )
 
 // Prompt type that defines the shell prompt structure.
 type Prompt struct {
-	keys     []string
-	segments map[string]Segment
+	keys         []string
+	segmentsLock sync.Mutex
+	segments     map[string]Segment
 }
 
 // NewPrompt creates a new prompt and returns a pointer to its instance.
@@ -25,17 +27,26 @@ func NewPrompt(segments string) *Prompt {
 
 // Compile traverses all available segments. It also process each segment to
 // get all the data needed to render.
-func (p *Prompt) Compile() error {
+func (p *Prompt) Compile() {
+	var wg sync.WaitGroup
+	wg.Add(len(p.keys))
 	for _, v := range p.keys {
-		p.addSegment(v)
+		go func(v string) {
+			defer wg.Done()
+			segment := p.getSegment(v)
+			segment.Compile()
+			p.segmentsLock.Lock()
+			p.segments[v] = segment
+			p.segmentsLock.Unlock()
+		}(v)
 	}
-	return nil
+	wg.Wait()
 }
 
 // Render compiles all the segments on the prompt and concatenates its results.
 //
 // Receives the list of segments to render them in the correct order.
-func (p *Prompt) Render() ([]byte, error) {
+func (p *Prompt) Render() []byte {
 	var b bytes.Buffer
 	// Render all segments
 	for _, v := range p.keys {
@@ -45,12 +56,11 @@ func (p *Prompt) Render() ([]byte, error) {
 	// Reset foreground and background colors
 	b.Write(ResetFgBg())
 	b.WriteRune(' ')
-	return b.Bytes(), nil
+	return b.Bytes()
 }
 
-// addSegment adds a segment instance by its name to the prompt.
-// TODO : Should be done in paralel
-func (p *Prompt) addSegment(key string) {
+// getSegment gets a segment instance by its name to the prompt.
+func (p *Prompt) getSegment(key string) Segment {
 	var segment Segment
 	switch key {
 	case "root":
@@ -66,8 +76,7 @@ func (p *Prompt) addSegment(key string) {
 	default:
 		segment = NewSegmentUnknown()
 	}
-	segment.Compile()
-	p.segments[key] = segment
+	return segment
 }
 
 func getSegmentsList(segments string) []string {
