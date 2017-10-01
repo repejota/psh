@@ -3,11 +3,16 @@ package psh
 
 import "testing"
 
-func TestSegmentUnknownCompile(t *testing.T) {
+func TestSegmentUnknown(t *testing.T) {
 	expected := ""
 	segment := NewSegmentUnknown()
 	segment.Compile()
 	if string(segment.Data) != expected {
+		t.Fatalf("Compiled data expected to be %s but got %s", expected, segment.Data)
+	}
+
+	out := segment.Render()
+	if string(out) != expected {
 		t.Fatalf("Compiled data expected to be %s but got %s", expected, segment.Data)
 	}
 }
