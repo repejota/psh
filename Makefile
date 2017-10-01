@@ -87,7 +87,6 @@ colortest: install
 bgtest: install
 	psh --backgroundtest
 
-
 # Docs
 
 godoc-serve:

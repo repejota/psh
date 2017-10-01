@@ -55,6 +55,8 @@ func (p *Prompt) addSegment(key string) {
 	switch key {
 	case "root":
 		segment = NewSegmentRoot()
+	case "git":
+		segment = NewSegmentGit()
 	case "username":
 		segment = NewSegmentUsername()
 	case "hostname":
