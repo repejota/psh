@@ -27,3 +27,19 @@ func TestResetBackground(t *testing.T) {
 		t.Fatalf("Expected %s but got %s", expected, string(output))
 	}
 }
+
+func TestSetBackground(t *testing.T) {
+	expected := `\[\e[48;5;128m\]`
+	output := SetBackground(128)
+	if string(output) != expected {
+		t.Fatalf("Expected %s but got %s", expected, string(output))
+	}
+}
+
+func TestSetForeground(t *testing.T) {
+	expected := `\[\e[38;5;128m\]`
+	output := SetForeground(128)
+	if string(output) != expected {
+		t.Fatalf("Expected %s but got %s", expected, string(output))
+	}
+}
