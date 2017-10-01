@@ -15,7 +15,7 @@ type Prompt struct {
 
 // NewPrompt creates a new prompt and returns a pointer to its instance.
 func NewPrompt(segments string) (*Prompt, error) {
-	keys := strings.Split(segments, ",")
+	keys := getSegmentsList(segments)
 	prompt := &Prompt{
 		keys:     keys,
 		segments: make(map[string]Segment, len(keys)),
@@ -66,4 +66,14 @@ func (p *Prompt) addSegment(key string) {
 	}
 	segment.Compile()
 	p.segments[key] = segment
+}
+
+func getSegmentsList(segments string) []string {
+	keys := strings.Split(segments, ",")
+	for i, v := range keys {
+		if v == "" {
+			keys = append(keys[:i], keys[i+1:]...)
+		}
+	}
+	return keys
 }
