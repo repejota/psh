@@ -29,7 +29,7 @@ func (s *SegmentRoot) Compile() {
 func (s *SegmentRoot) Render() []byte {
 	var b bytes.Buffer
 	if len(s.Data) != 0 {
-		b.Write(SetBackground(239))
+		b.Write(SetBackground(236))
 		b.Write([]byte(" "))
 		b.Write(s.Data)
 		b.Write([]byte(" "))

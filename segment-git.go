@@ -34,9 +34,11 @@ func (s *SegmentGit) Compile() {
 func (s *SegmentGit) Render() []byte {
 	var b bytes.Buffer
 	if len(s.Data) != 0 {
-		b.Write(SetBackground(202))
+		b.Write(SetBackground(148))
 		b.Write([]byte(" "))
+		b.Write(SetForeground(0))
 		b.Write(s.Data)
+		b.Write(ResetForeground())
 		b.Write([]byte(" "))
 	}
 	return b.Bytes()

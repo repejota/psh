@@ -1,6 +1,6 @@
 # psh
 
-A prompt generator
+Fast, conigurable shell prompt.
 
 * Master : [![CircleCI](https://circleci.com/gh/repejota/psh/tree/master.svg?style=svg)](https://circleci.com/gh/repejota/psh/tree/master)
 * Develop : [![CircleCI](https://circleci.com/gh/repejota/psh/tree/develop.svg?style=svg)](https://circleci.com/gh/repejota/psh/tree/develop)
