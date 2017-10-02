@@ -2,7 +2,15 @@
 
 package psh
 
-import "bytes"
+import (
+	"bytes"
+	"fmt"
+)
+
+const (
+	// SegmentCWDBackground is the background color to use
+	SegmentCWDBackground = 237 // #3a3a3a
+)
 
 // SegmentCWD implements the current working directory partial of the prompt.
 //
@@ -17,7 +25,7 @@ func NewSegmentCWD() *SegmentCWD {
 	return segment
 }
 
-// Compile ...
+// Compile collects the data for this segment.
 func (s *SegmentCWD) Compile() {
 	s.Data = []byte("\\w")
 }
@@ -26,10 +34,10 @@ func (s *SegmentCWD) Compile() {
 func (s *SegmentCWD) Render() []byte {
 	var b bytes.Buffer
 	if len(s.Data) != 0 {
-		b.Write(SetBackground(237))
-		b.Write([]byte(" "))
+		b.Write(SetBackground(SegmentCWDBackground))
+		fmt.Fprint(&b, " ")
 		b.Write(s.Data)
-		b.Write([]byte(" "))
+		fmt.Fprint(&b, " ")
 	}
 	return b.Bytes()
 }

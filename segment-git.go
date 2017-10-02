@@ -4,27 +4,37 @@ package psh
 
 import (
 	"bytes"
+	"fmt"
 	"os/exec"
 	"strings"
 )
 
-// git rev-parse --show-toplevel : shows root of the repo
-// git status --porcelain -b : shows conmplete status of the repo
+const (
+	// SegmentGitBackground is the background color to use
+	SegmentGitBackground = 148 // #afd700
+
+	// SegmentGitForeground is the foreground color to use
+	SegmentGitForeground = 0 // #000000
+)
 
 // SegmentGit implements the git SCM partial of the prompt.
 //
 // It renders the current branch if the folder contains a repository.
+//
+// TODO:
+// * git rev-parse --show-toplevel : shows root of the repo
+// * git status --porcelain -b : shows conmplete status of the repo
 type SegmentGit struct {
 	Data []byte
 }
 
-// NewSegmentGit creates an instace of SegmentHostname type.
+// NewSegmentGit creates an instace of SegmentGit type.
 func NewSegmentGit() *SegmentGit {
 	segment := &SegmentGit{}
 	return segment
 }
 
-// Compile ...
+// Compile collects the data for this segment.
 func (s *SegmentGit) Compile() {
 	currentBranch := getCurrentBranch()
 	s.Data = []byte(currentBranch)
@@ -35,11 +45,11 @@ func (s *SegmentGit) Render() []byte {
 	var b bytes.Buffer
 	if len(s.Data) != 0 {
 		b.Write(SetBackground(148))
-		b.Write([]byte(" "))
+		fmt.Fprint(&b, " ")
 		b.Write(SetForeground(0))
 		b.Write(s.Data)
 		b.Write(ResetForeground())
-		b.Write([]byte(" "))
+		fmt.Fprint(&b, " ")
 	}
 	return b.Bytes()
 }

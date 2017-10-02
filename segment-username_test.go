@@ -8,7 +8,7 @@ func TestSegmentUsernameCompile(t *testing.T) {
 	segment := NewSegmentUsername()
 	segment.Compile()
 	if string(segment.Data) != expected {
-		t.Fatalf("Compiled data expected to be %s but got %s", expected, string(segment.Data))
+		t.Fatalf("Compiled data expected to be %q but got %q", expected, string(segment.Data))
 	}
 }
 
