@@ -30,7 +30,7 @@ func NewSegmentRoot() *SegmentRoot {
 	return segment
 }
 
-// Compile ...
+// Compile collects the data for this segment.
 func (s *SegmentRoot) Compile() {
 	s.Data = []byte("\\$")
 }

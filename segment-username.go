@@ -28,7 +28,7 @@ func NewSegmentUsername() *SegmentUsername {
 	return segment
 }
 
-// Compile ...
+// Compile collects the data for this segment.
 func (s *SegmentUsername) Compile() {
 	s.Data = []byte("\\u")
 }
