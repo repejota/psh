@@ -8,11 +8,11 @@ func TestSegmentUnknown(t *testing.T) {
 	segment := NewSegmentUnknown()
 	segment.Compile()
 	if string(segment.Data) != expected {
-		t.Fatalf("Compiled data expected to be %s but got %s", expected, segment.Data)
+		t.Fatalf("Compiled data expected to be %q but got %q", expected, segment.Data)
 	}
 
 	out := segment.Render()
 	if string(out) != expected {
-		t.Fatalf("Compiled data expected to be %s but got %s", expected, segment.Data)
+		t.Fatalf("Compiled data expected to be %q but got %q", expected, segment.Data)
 	}
 }
