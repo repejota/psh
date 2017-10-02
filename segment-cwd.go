@@ -25,7 +25,7 @@ func NewSegmentCWD() *SegmentCWD {
 	return segment
 }
 
-// Compile ...
+// Compile collects the data for this segment.
 func (s *SegmentCWD) Compile() {
 	s.Data = []byte("\\w")
 }
