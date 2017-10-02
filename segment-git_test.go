@@ -31,6 +31,8 @@ func TestSegmentGitRender(t *testing.T) {
 func TestSegmentGitCompileBranch(t *testing.T) {
 	_ = os.Mkdir("/tmp/repo", 0755)
 	_ = os.Chdir("/tmp/repo")
+	_, _ = exec.Command("git", "config", "--global", "user.email", "repejota@gmail.com").Output()
+	_, _ = exec.Command("git", "config", "--global", "user.name", "Raül Pérez").Output()
 	_, _ = exec.Command("git", "init").Output()
 	_, _ = exec.Command("touch", "README.md").Output()
 	_, _ = exec.Command("git", "add", ".").Output()
@@ -48,6 +50,8 @@ func TestSegmentGitCompileBranch(t *testing.T) {
 func TestSegmentGitRenderBranch(t *testing.T) {
 	_ = os.Mkdir("/tmp/repo", 0755)
 	_ = os.Chdir("/tmp/repo")
+	_, _ = exec.Command("git", "config", "--global", "user.email", "repejota@gmail.com").Output()
+	_, _ = exec.Command("git", "config", "--global", "user.name", "Raül Pérez").Output()
 	_, _ = exec.Command("git", "init").Output()
 	_, _ = exec.Command("touch", "README.md").Output()
 	_, _ = exec.Command("git", "add", ".").Output()
