@@ -8,7 +8,7 @@ import (
 )
 
 func TestSegmentGitCompile(t *testing.T) {
-	os.Chdir("/tmp")
+	_ = os.Chdir("/tmp")
 	expected := ``
 	segment := NewSegmentGit()
 	segment.Compile()
@@ -18,7 +18,7 @@ func TestSegmentGitCompile(t *testing.T) {
 }
 
 func TestSegmentGitRender(t *testing.T) {
-	os.Chdir("/tmp")
+	_ = os.Chdir("/tmp")
 	expected := ``
 	segment := NewSegmentGit()
 	segment.Compile()
@@ -29,13 +29,13 @@ func TestSegmentGitRender(t *testing.T) {
 }
 
 func TestSegmentGitCompileBranch(t *testing.T) {
-	os.Mkdir("/tmp/repo", 0755)
-	os.Chdir("/tmp/repo")
-	exec.Command("git", "init").Output()
-	exec.Command("touch", "README.md").Output()
-	exec.Command("git", "add", ".").Output()
-	exec.Command("git", "commit", "-am", ".").Output()
-	defer os.RemoveAll("/tmp/repo")
+	_ = os.Mkdir("/tmp/repo", 0755)
+	_ = os.Chdir("/tmp/repo")
+	_, _ = exec.Command("git", "init").Output()
+	_, _ = exec.Command("touch", "README.md").Output()
+	_, _ = exec.Command("git", "add", ".").Output()
+	_, _ = exec.Command("git", "commit", "-am", ".").Output()
+	defer func() { _ = os.RemoveAll("/tmp/repo") }()
 
 	expected := `master`
 	segment := NewSegmentGit()
@@ -46,13 +46,13 @@ func TestSegmentGitCompileBranch(t *testing.T) {
 }
 
 func TestSegmentGitRenderBranch(t *testing.T) {
-	os.Mkdir("/tmp/repo", 0755)
-	os.Chdir("/tmp/repo")
-	exec.Command("git", "init").Output()
-	exec.Command("touch", "README.md").Output()
-	exec.Command("git", "add", ".").Output()
-	exec.Command("git", "commit", "-am", ".").Output()
-	defer os.RemoveAll("/tmp/repo")
+	_ = os.Mkdir("/tmp/repo", 0755)
+	_ = os.Chdir("/tmp/repo")
+	_, _ = exec.Command("git", "init").Output()
+	_, _ = exec.Command("touch", "README.md").Output()
+	_, _ = exec.Command("git", "add", ".").Output()
+	_, _ = exec.Command("git", "commit", "-am", ".").Output()
+	defer func() { _ = os.RemoveAll("/tmp/repo") }()
 
 	expected := `\[\e[48;5;148m\] \[\e[38;5;0m\]master\[\e[39m\] `
 	segment := NewSegmentGit()
