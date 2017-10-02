@@ -17,6 +17,9 @@ const (
 // It renders the special character string "\$".
 // In bash this results to character '#' if the effective UID is 0,
 // otherwise '$'.
+//
+// TODO:
+// * Change background color if the last command exit status != 0
 type SegmentRoot struct {
 	Data []byte
 }
