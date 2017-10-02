@@ -4,10 +4,20 @@ package psh
 import "testing"
 
 func TestSegmentRootCompile(t *testing.T) {
-	expected := "\\$"
+	expected := `\$`
 	segment := NewSegmentRoot()
 	segment.Compile()
 	if string(segment.Data) != expected {
-		t.Fatalf("Compiled data expected to be %s but got %s", expected, segment.Data)
+		t.Fatalf("Compiled data expected to be %q but got %q", expected, string(segment.Data))
+	}
+}
+
+func TestSegmentRootRender(t *testing.T) {
+	expected := `\[\e[48;5;236m\] \$ `
+	segment := NewSegmentRoot()
+	segment.Compile()
+	out := segment.Render()
+	if string(out) != expected {
+		t.Fatalf("Rendered segment expected to be %q but got %q", expected, string(out))
 	}
 }

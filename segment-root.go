@@ -4,12 +4,19 @@ package psh
 
 import (
 	"bytes"
+	"fmt"
+)
+
+const (
+	// SegmentRootBackground is the background color to use
+	SegmentRootBackground = 236 // #303030
 )
 
 // SegmentRoot implements the root partial of the prompt.
 //
-// It renders the character '#' if the effective UID of the current user is 0,
-// otherwise renders the character '$'.
+// It renders the special character string "\$".
+// In bash this results to character '#' if the effective UID is 0,
+// otherwise '$'.
 type SegmentRoot struct {
 	Data []byte
 }
@@ -28,11 +35,9 @@ func (s *SegmentRoot) Compile() {
 // Render renders the segment results.
 func (s *SegmentRoot) Render() []byte {
 	var b bytes.Buffer
-	if len(s.Data) != 0 {
-		b.Write(SetBackground(236))
-		b.Write([]byte(" "))
-		b.Write(s.Data)
-		b.Write([]byte(" "))
-	}
+	b.Write(SetBackground(SegmentRootBackground))
+	fmt.Fprint(&b, " ")
+	b.Write(s.Data)
+	fmt.Fprint(&b, " ")
 	return b.Bytes()
 }
