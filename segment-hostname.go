@@ -2,11 +2,22 @@
 
 package psh
 
-import "bytes"
+import (
+	"bytes"
+	"fmt"
+)
+
+const (
+	// SegmentHostnameBackground is the background color to use
+	SegmentHostnameBackground = 238 // #444444
+)
 
 // SegmentHostname implements the hostname partial of the prompt.
 //
-// It renders the current hostname.
+// It renders the current hostname up to the first '.'
+//
+// TODO:
+// * Add support for long/conmplete hostname.
 type SegmentHostname struct {
 	Data []byte
 }
@@ -17,7 +28,7 @@ func NewSegmentHostname() *SegmentHostname {
 	return segment
 }
 
-// Compile ...
+// Compile collects the data for this segment.
 func (s *SegmentHostname) Compile() {
 	s.Data = []byte("\\h")
 }
@@ -26,10 +37,10 @@ func (s *SegmentHostname) Compile() {
 func (s *SegmentHostname) Render() []byte {
 	var b bytes.Buffer
 	if len(s.Data) != 0 {
-		b.Write(SetBackground(238))
-		b.Write([]byte(" "))
+		b.Write(SetBackground(SegmentHostnameBackground))
+		fmt.Fprint(&b, " ")
 		b.Write(s.Data)
-		b.Write([]byte(" "))
+		fmt.Fprint(&b, " ")
 	}
 	return b.Bytes()
 }

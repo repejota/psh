@@ -2,11 +2,22 @@
 
 package psh
 
-import "bytes"
+import (
+	"bytes"
+	"fmt"
+)
+
+const (
+	// SegmentUsernameBackground is the background color to use
+	SegmentUsernameBackground = 240 // #585858
+)
 
 // SegmentUsername implements the username partial of the prompt.
 //
-// It renders the current username.
+// Renders the current username.
+//
+// TODO:
+// * If the user is root (uid=0) use a different background.
 type SegmentUsername struct {
 	Data []byte
 }
@@ -17,7 +28,7 @@ func NewSegmentUsername() *SegmentUsername {
 	return segment
 }
 
-// Compile ...
+// Compile collects the data for this segment.
 func (s *SegmentUsername) Compile() {
 	s.Data = []byte("\\u")
 }
@@ -25,11 +36,9 @@ func (s *SegmentUsername) Compile() {
 // Render renders the segment results.
 func (s *SegmentUsername) Render() []byte {
 	var b bytes.Buffer
-	if len(s.Data) != 0 {
-		b.Write(SetBackground(240))
-		b.Write([]byte(" "))
-		b.Write(s.Data)
-		b.Write([]byte(" "))
-	}
+	b.Write(SetBackground(SegmentUsernameBackground))
+	fmt.Fprint(&b, " ")
+	b.Write(s.Data)
+	fmt.Fprint(&b, " ")
 	return b.Bytes()
 }
