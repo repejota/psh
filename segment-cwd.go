@@ -26,7 +26,7 @@ func (s *SegmentCWD) Compile() {
 func (s *SegmentCWD) Render() []byte {
 	var b bytes.Buffer
 	if len(s.Data) != 0 {
-		b.Write(SetBackground(238))
+		b.Write(SetBackground(237))
 		b.Write([]byte(" "))
 		b.Write(s.Data)
 		b.Write([]byte(" "))
