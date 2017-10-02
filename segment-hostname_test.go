@@ -4,7 +4,7 @@ package psh
 import "testing"
 
 func TestSegmentHostnameCompile(t *testing.T) {
-	expected := `\\h`
+	expected := `\h`
 	segment := NewSegmentHostname()
 	segment.Compile()
 	if string(segment.Data) != expected {
