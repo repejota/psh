@@ -73,6 +73,8 @@ func (p *Prompt) getSegment(key string) Segment {
 		segment = NewSegmentCWD()
 	case "git":
 		segment = NewSegmentGit()
+	case "virtualenv":
+		segment = NewSegmentVirtualEnv()
 	default:
 		segment = NewSegmentUnknown()
 	}
