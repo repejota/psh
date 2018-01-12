@@ -41,7 +41,7 @@ cover-html: cover-profile
 # Lint
 
 lint:
-	gometalinter --tests ./...
+	gometalinter --tests ./... --disable=gas
 
 # Dependencies
 
