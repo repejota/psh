@@ -7,7 +7,10 @@ import (
 )
 
 func TestSegmentVirtualEnvCompile(t *testing.T) {
-	os.Setenv("VIRTUAL_ENV", "/home/user/venv")
+	err := os.Setenv("VIRTUAL_ENV", "/home/user/venv")
+	if err != nil {
+		t.Fatalf("Can't set the required enviornment.")
+	}
 	expected := `venv`
 	segment := NewSegmentVirtualEnv()
 	segment.Compile()
@@ -17,7 +20,10 @@ func TestSegmentVirtualEnvCompile(t *testing.T) {
 }
 
 func TestSegmentVirtualEnvRender(t *testing.T) {
-	os.Setenv("VIRTUAL_ENV", "/home/user/venv")
+	err := os.Setenv("VIRTUAL_ENV", "/home/user/venv")
+	if err != nil {
+		t.Fatalf("Can't set the required enviornment.")
+	}
 	expected := `\[\e[48;5;22m\]  venv `
 	segment := NewSegmentVirtualEnv()
 	segment.Compile()
