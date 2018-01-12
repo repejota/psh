@@ -43,6 +43,7 @@ func (s *SegmentVirtualEnv) Render() []byte {
 	if len(s.Data) > 0 {
 		b.Write(SetBackground(SegmentVirtualEnvBackground))
 		fmt.Fprint(&b, " ")
+		fmt.Fprint(&b, " ")
 		b.Write(s.Data)
 		fmt.Fprint(&b, " ")
 	}
