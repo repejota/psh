@@ -27,6 +27,15 @@ import (
 const (
 	// SegmentVirtualEnvBackground is the background color to use
 	SegmentVirtualEnvBackground = 22 // #585858
+
+	// SegmentVirtualEnvBackgroundR ...
+	SegmentVirtualEnvBackgroundR = 61
+
+	// SegmentVirtualEnvBackgroundG ...
+	SegmentVirtualEnvBackgroundG = 116
+
+	// SegmentVirtualEnvBackgroundB ...
+	SegmentVirtualEnvBackgroundB = 132
 )
 
 // SegmentVirtualEnv implements the python virtual env partial of the prompt.
@@ -56,7 +65,7 @@ func (s *SegmentVirtualEnv) Compile() {
 func (s *SegmentVirtualEnv) Render() []byte {
 	var b bytes.Buffer
 	if len(s.Data) > 0 {
-		b.Write(SetBackground(SegmentVirtualEnvBackground))
+		b.Write(SetTrueColorBackground(SegmentVirtualEnvBackgroundR, SegmentVirtualEnvBackgroundG, SegmentVirtualEnvBackgroundB))
 		fmt.Fprint(&b, " ")
 		fmt.Fprint(&b, " ")
 		b.Write(s.Data)

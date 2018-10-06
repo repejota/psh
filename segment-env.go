@@ -24,8 +24,14 @@ import (
 )
 
 const (
-	// SegmentEnvBackground is the background color to use
-	SegmentEnvBackground = 166
+	// SegmentEnvBackgroundR ...
+	SegmentEnvBackgroundR = 163
+
+	// SegmentEnvBackgroundG ...
+	SegmentEnvBackgroundG = 104
+
+	// SegmentEnvBackgroundB ...
+	SegmentEnvBackgroundB = 75
 )
 
 // SegmentEnv implements the python virtual env partial of the prompt.
@@ -56,7 +62,7 @@ func (s *SegmentEnv) Compile() {
 func (s *SegmentEnv) Render() []byte {
 	var b bytes.Buffer
 	if len(s.Data) > 0 {
-		b.Write(SetBackground(SegmentEnvBackground))
+		b.Write(SetTrueColorBackground(SegmentEnvBackgroundR, SegmentEnvBackgroundG, SegmentEnvBackgroundB))
 		fmt.Fprint(&b, " ")
 		fmt.Fprint(&b, " ")
 		b.Write(s.Data)
