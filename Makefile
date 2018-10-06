@@ -1,26 +1,34 @@
-BINARY=psh
+include Makefile.help.mk
+
+BINARY=skeleton
+MAIN_PACKAGE=cmd/${BINARY}/main.go
+PACKAGES = $(shell go list ./...)
 VERSION=`cat VERSION`
 BUILD=`git symbolic-ref HEAD 2> /dev/null | cut -b 12-`-`git log --pretty=format:%h -1`
-PACKAGES = $(shell go list ./...)
+DIST_FOLDER=dist
+DIST_INCLUDE_FILES=README.md LICENSE VERSION
 
-# Setup the -ldflags option for go build here, interpolate the variable
-# values
+# Setup -ldflags option for go build here, interpolate the variable values
 LDFLAGS=-ldflags "-X main.Version=${VERSION} -X main.Build=${BUILD}"
 
-# Build & Install
+# Build & Install
 
-install:
+install:		## Build and install package on your system
 	go install $(LDFLAGS) -v $(PACKAGES)
 
 .PHONY: version
-version:
+version:		## Show version information
 	@echo $(VERSION)-$(BUILD)
 
 # Testing
 
 .PHONY: test
-test:
+test:			## Execute package tests 
 	go test -v $(PACKAGES)
+
+.PHONY: test-race
+test-race:
+	go test -race -v $(PACKAGES)
 
 .PHONY: cover-profile
 cover-profile:
@@ -31,66 +39,51 @@ cover-profile:
 	rm -rf coverage.out
 
 .PHONY: cover
-cover: cover-profile
+cover: cover-profile	
+cover: 			## Generate test coverage data
 	go tool cover -func=coverage-all.out
 
 .PHONY: cover-html
 cover-html: cover-profile
+cover-html:		## Generate coverage report
 	go tool cover -html=coverage-all.out
 
-# Lint
+.PHONY: codecov
+codecov:
+	bash <(curl -s https://codecov.io/bash)
 
-lint:
-	gometalinter --tests ./... --disable=gas
+# BenchMarking
 
-# Dependencies
+.PHONY: benchmark
+benchmark:		## Execute package benchmarks 
+	go test -v $(PACKAGES) -benchmem -bench . 
 
-deps:
+# Dependencies
 
-dev-deps:
-	go get -u github.com/alecthomas/gometalinter
-	gometalinter --install
+deps:			## Install build dependencies
+	go get -u=patch
+	go mod tidy -v
+	go mod download
+	go mod verify
 
-# Pacakge and Distribution
-
-dist: dist-linux dist-darwin dist-windows
-
-dist-linux:
-	GOOS=linux GOARCH=amd64 go build ${LDFLAGS} -o ${BINARY}-${VERSION}-linux-amd64
-	zip ${BINARY}-${VERSION}-linux-amd64.zip ${BINARY}-${VERSION}-linux-amd64 README.md LICENSE
-	GOOS=linux GOARCH=386 go build ${LDFLAGS} -o ${BINARY}-${VERSION}-linux-386
-	zip ${BINARY}-${VERSION}-linux-386.zip ${BINARY}-${VERSION}-linux-386 README.md LICENSE
-
-dist-darwin:
-	GOOS=darwin GOARCH=amd64 go build ${LDFLAGS} -o ${BINARY}-${VERSION}-darwin-amd64
-	zip ${BINARY}-${VERSION}-darwin-amd64.zip ${BINARY}-${VERSION}-darwin-amd64 README.md LICENSE
-	GOOS=darwin GOARCH=386 go build ${LDFLAGS} -o ${BINARY}-${VERSION}-darwin-386
-	zip ${BINARY}-${VERSION}-darwin-386.zip ${BINARY}-${VERSION}-darwin-386 README.md LICENSE
-
-dist-windows:
-	GOOS=windows GOARCH=amd64 go build ${LDFLAGS} -o ${BINARY}-${VERSION}-windows-amd64.exe
-	zip ${BINARY}-${VERSION}-windows-amd64.zip ${BINARY}-${VERSION}-windows-amd64.exe README.md LICENSE
-	GOOS=windows GOARCH=386 go build ${LDFLAGS} -o ${BINARY}-${VERSION}-windows-386.exe
-	zip ${BINARY}-${VERSION}-windows-386.zip ${BINARY}-${VERSION}-windows-386.exe README.md LICENSE
-
-# Cleaning up
+dev-deps: deps
+dev-deps:		## Install dev and build dependencies
 
 .PHONY: clean
-clean:
+clean:			## Delete generated development environment
 	go clean
-	rm -rf ${BINARY}
+	rm -rf ${BINARY}-*-*
+	rm -rf ${BINARY}-*-*.exe
+	rm -rf ${BINARY}-*-*.zip
 	rm -rf coverage-all.out
-	rm -rf ${BINARY}-*
 
-# Run
+# Lint
 
-colortest: install
-	psh --colortest
+.PHONY: lint
+lint:			## Lint source code
+	./lint.bash
 
-bgtest: install
-	psh --backgroundtest
+# Docs
 
-# Docs
-
-godoc-serve:
+godoc-serve:		## Serve documentation (godoc format) for this package at port HTTP 9090
 	godoc -http=":9090"
