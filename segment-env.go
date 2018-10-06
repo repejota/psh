@@ -44,11 +44,12 @@ func NewSegmentEnv() *SegmentEnv {
 // Compile collects the data for this segment.
 func (s *SegmentEnv) Compile() {
 	s.Data = []byte("")
-	EnvName, ok := os.LookupEnv("ENV")
+	envName := ""
+	envName, ok := os.LookupEnv("ENV")
 	if ok {
-		EnvName = os.Getenv("ENV")
-		s.Data = []byte(EnvName)
+		envName = os.Getenv("ENV")
 	}
+	s.Data = []byte(envName)
 }
 
 // Render renders the segment results.
