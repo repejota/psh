@@ -59,7 +59,7 @@ limitations under the License.
 [Coverage-URL]: https://codecov.io/gh/repejota/psh
 [GoReportCard-Image]: https://goreportcard.com/badge/github.com/repejota/psh
 [GoReportCard-URL]: https://goreportcard.com/report/github.com/repejota/psh
-[CII-Image]: https://bestpractices.coreinfrastructure.org/projects/2215/badge
-[CII-URL]: https://bestpractices.coreinfrastructure.org/projects/2215
+[CII-Image]: https://bestpractices.coreinfrastructure.org/projects/2265/badge
+[CII-URL]: https://bestpractices.coreinfrastructure.org/projects/2265
 [GoDoc-Image]: https://godoc.org/github.com/repejota/psh?status.svg
 [GoDoc-URL]: http://godoc.org/github.com/repejota/psh
