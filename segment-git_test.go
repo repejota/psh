@@ -74,7 +74,7 @@ func TestSegmentGitRenderBranch(t *testing.T) {
 	_, _ = exec.Command("git", "commit", "-am", ".").Output()
 	defer func() { _ = os.RemoveAll("/tmp/repo") }()
 
-	expected := `\[\e[48;5;148m\] \[\e[38;5;0m\]master\[\e[39m\] `
+	expected := `\[\e[48;2;160;180;117m\] \[\e[38;5;0m\]master\[\e[39m\] `
 	segment := NewSegmentGit()
 	segment.Compile()
 	out := segment.Render()

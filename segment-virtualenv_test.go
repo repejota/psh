@@ -40,7 +40,7 @@ func TestSegmentVirtualEnvRender(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Can't set the required enviornment.")
 	}
-	expected := `\[\e[48;5;22m\]  venv `
+	expected := `\[\e[48;2;61;116;132m\]  venv `
 	segment := NewSegmentVirtualEnv()
 	segment.Compile()
 	out := segment.Render()
