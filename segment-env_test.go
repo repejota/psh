@@ -17,20 +17,31 @@
 
 package psh
 
-import "testing"
+import (
+	"os"
+	"testing"
+)
 
-func TestSegmentHostnameCompile(t *testing.T) {
-	expected := `\h`
-	segment := NewSegmentHostname()
+func TestSegmentENVCompile(t *testing.T) {
+	err := os.Setenv("ENV", "dev")
+	if err != nil {
+		t.Fatalf("Can't set the required enviornment.")
+	}
+	expected := `dev`
+	segment := NewSegmentEnv()
 	segment.Compile()
 	if string(segment.Data) != expected {
 		t.Fatalf("Compiled data expected to be %q but got %q", expected, string(segment.Data))
 	}
 }
 
-func TestSegmentHostnameRender(t *testing.T) {
-	expected := `\[\e[48;5;238m\] \h `
-	segment := NewSegmentHostname()
+func TestSegmentENVRender(t *testing.T) {
+	err := os.Setenv("ENV", "dev")
+	if err != nil {
+		t.Fatalf("Can't set the required enviornment.")
+	}
+	expected := `\[\e[48;5;166m\]  dev `
+	segment := NewSegmentEnv()
 	segment.Compile()
 	out := segment.Render()
 	if string(out) != expected {
