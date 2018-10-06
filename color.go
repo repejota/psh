@@ -45,7 +45,7 @@ func ResetBackground() []byte {
 	return []byte(escapeSequence)
 }
 
-// SetBackground sets background color on the terminal.
+// SetBackground sets background color on the terminal
 func SetBackground(background uint8) []byte {
 	bg := fmt.Sprintf("[48;5;%dm", background)
 	escapeSequence := fmt.Sprintf(colorTemplate, bg)
@@ -55,6 +55,22 @@ func SetBackground(background uint8) []byte {
 // SetForeground sets foreground color on the terminal.
 func SetForeground(foreground uint8) []byte {
 	fg := fmt.Sprintf("[38;5;%dm", foreground)
+	escapeSequence := fmt.Sprintf(colorTemplate, fg)
+	return []byte(escapeSequence)
+}
+
+// SetTrueColorBackground sets background color on the terminal using true
+// color format.
+func SetTrueColorBackground(r, g, b int) []byte {
+	fg := fmt.Sprintf("[48;2;%d;%d;%dm", r, g, b)
+	escapeSequence := fmt.Sprintf(colorTemplate, fg)
+	return []byte(escapeSequence)
+}
+
+// SetTrueColorForeground sets foreground color on the terminal using true
+// color format.
+func SetTrueColorForeground(r, g, b int) []byte {
+	fg := fmt.Sprintf("[38;2;%d;%d;%dm", r, g, b)
 	escapeSequence := fmt.Sprintf(colorTemplate, fg)
 	return []byte(escapeSequence)
 }

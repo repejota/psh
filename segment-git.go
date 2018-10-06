@@ -28,6 +28,15 @@ const (
 	// SegmentGitBackground is the background color to use
 	SegmentGitBackground = 148 // #afd700
 
+	// SegmentGitBackgroundR ...
+	SegmentGitBackgroundR = 160
+
+	// SegmentGitBackgroundG ...
+	SegmentGitBackgroundG = 180
+
+	// SegmentGitBackgroundB ...
+	SegmentGitBackgroundB = 117
+
 	// SegmentGitForeground is the foreground color to use
 	SegmentGitForeground = 0 // #000000
 )
@@ -59,9 +68,9 @@ func (s *SegmentGit) Compile() {
 func (s *SegmentGit) Render() []byte {
 	var b bytes.Buffer
 	if len(s.Data) != 0 {
-		b.Write(SetBackground(148))
+		b.Write(SetTrueColorBackground(SegmentGitBackgroundR, SegmentGitBackgroundG, SegmentGitBackgroundB))
 		fmt.Fprint(&b, " ")
-		b.Write(SetForeground(0))
+		b.Write(SetForeground(SegmentGitForeground))
 		b.Write(s.Data)
 		b.Write(ResetForeground())
 		fmt.Fprint(&b, " ")
